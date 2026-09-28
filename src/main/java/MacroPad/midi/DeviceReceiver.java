@@ -5,6 +5,7 @@ import javax.sound.midi.Receiver;
 import javax.sound.midi.ShortMessage;
 
 public class DeviceReceiver implements Receiver {
+    private final PageManager pageManager;
 
     private static final int[][] BUTTON_NOTES = {
             {64, 65, 66, 67, 96, 97, 98, 99},
@@ -16,6 +17,10 @@ public class DeviceReceiver implements Receiver {
             {40, 41, 42, 43, 72, 73, 74, 75},
             {36, 37, 38, 39, 68, 69, 70, 71}
     };
+
+    public DeviceReceiver(PageManager pageManager) {
+        this.pageManager = pageManager;
+    }
 
     @Override
     public void send(MidiMessage message, long timeStamp) {
@@ -36,6 +41,12 @@ public class DeviceReceiver implements Receiver {
         int row = -1;
         int col = -1;
 
+        if (note >= 100 && note <= 107) {
+            int page = note - 100;
+            pageManager.changePage(page);
+            return;
+        }
+
         for (int i = 0; i < BUTTON_NOTES.length; i++) {
             for (int j = 0; j < BUTTON_NOTES[i].length; j++) {
                 if (BUTTON_NOTES[i][j] == note) {
@@ -54,7 +65,7 @@ public class DeviceReceiver implements Receiver {
             return;
         }
 
-        System.out.println("Button pressed: " + "Note: " + note + ", Row: " + row + ", Col: " + col);
+        System.out.println("Button pressed: " + "Page: " + pageManager.getCurrentPage() + ", Note: " + note + ", Row: " + row + ", Col: " + col);
     }
 
     @Override

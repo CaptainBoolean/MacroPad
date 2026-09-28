@@ -16,16 +16,13 @@ public class DeviceManager {
         }
 
         try {
-
             launchpad.open();
 
-            System.out.println(
-                    "Launchpad connected: " + launchpad.getDeviceInfo().getName()
-            );
+            System.out.println("Launchpad connected: " + launchpad.getDeviceInfo().getName());
 
+            PageManager pageManager = new PageManager();
             Transmitter transmitter = launchpad.getTransmitter();
-
-            transmitter.setReceiver(new DeviceReceiver());
+            transmitter.setReceiver(new DeviceReceiver(pageManager));
 
             System.out.println("Setup complete. Press a Button");
 
@@ -42,7 +39,6 @@ public class DeviceManager {
         MidiDevice.Info[] devices = MidiSystem.getMidiDeviceInfo();
 
         for (MidiDevice.Info info : devices) {
-
             if (!info.getName().equals("MIDIIN2 (LPX MIDI)")) {
                 continue;
             }
@@ -58,7 +54,6 @@ public class DeviceManager {
                 e.printStackTrace();
             }
         }
-
         return null;
     }
 }
