@@ -8,16 +8,23 @@ public class DeviceReceiver implements Receiver {
 
     @Override
     public void send(MidiMessage message, long timeStamp) {
-        if (message instanceof ShortMessage){
-            ShortMessage shortMessage = (ShortMessage)message;
 
-            int command = shortMessage.getCommand();
-            int padID = shortMessage.getData1();
-            int velocity = shortMessage.getData2(); // How hard the pad is pressed
+        if (!(message instanceof ShortMessage shortMessage)) {
+            return;
+        }
 
-            if ((command == ShortMessage.NOTE_ON || command == ShortMessage.CONTROL_CHANGE) && velocity > 0) {
-                System.out.println("Command: " + command + "padID: " + padID + "Velocity: " + velocity);
-            }
+        int command = shortMessage.getCommand();
+        int padID = shortMessage.getData1();
+        int velocity = shortMessage.getData2();
+
+        if (command == ShortMessage.NOTE_ON && velocity > 0) {
+
+            System.out.println(
+                    "Pad pressed: "
+                            + padID
+                            + " | Velocity: "
+                            + velocity
+            );
         }
     }
 
