@@ -1,7 +1,9 @@
 package MacroPad.midi;
 
+import MacroPad.gui.OverlayManager;
 import MacroPad.macro.MacroManager;
 import MacroPad.macro.impl.AudioMacro;
+import MacroPad.macro.impl.GifMakro;
 
 import javax.sound.midi.MidiDevice;
 import javax.sound.midi.MidiSystem;
@@ -25,9 +27,13 @@ public class DeviceManager {
 
             PageManager pageManager = new PageManager();
             MacroManager macroManager = new MacroManager();
+            OverlayManager.startJavaFX();
 
-            AudioMacro audioMacro = new AudioMacro("airhorn.mp3");
-            macroManager.setMacro(0,0,0,audioMacro);
+            AudioMacro airhorn = new AudioMacro("airhorn.mp3");
+            macroManager.setMacro(0,0,0,airhorn);
+
+            GifMakro explosion = new GifMakro("explosion.gif");
+            macroManager.setMacro(0,0,1,explosion);
 
             Transmitter transmitter = launchpad.getTransmitter();
             transmitter.setReceiver(new DeviceReceiver(pageManager,  macroManager));
