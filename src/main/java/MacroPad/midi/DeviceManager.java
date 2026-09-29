@@ -25,6 +25,10 @@ public class DeviceManager {
 
             PageManager pageManager = new PageManager();
             MacroManager macroManager = new MacroManager();
+
+            AudioMacro audioMacro = new AudioMacro("airhorn.mp3");
+            macroManager.setMacro(0,0,0,audioMacro);
+
             Transmitter transmitter = launchpad.getTransmitter();
             transmitter.setReceiver(new DeviceReceiver(pageManager,  macroManager));
 
