@@ -1,5 +1,8 @@
 package MacroPad.midi;
 
+import MacroPad.macro.MacroManager;
+import MacroPad.macro.impl.AudioMacro;
+
 import javax.sound.midi.MidiDevice;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.Transmitter;
@@ -21,8 +24,9 @@ public class DeviceManager {
             System.out.println("Launchpad connected: " + launchpad.getDeviceInfo().getName());
 
             PageManager pageManager = new PageManager();
+            MacroManager macroManager = new MacroManager();
             Transmitter transmitter = launchpad.getTransmitter();
-            transmitter.setReceiver(new DeviceReceiver(pageManager));
+            transmitter.setReceiver(new DeviceReceiver(pageManager,  macroManager));
 
             System.out.println("Setup complete. Press a Button");
 

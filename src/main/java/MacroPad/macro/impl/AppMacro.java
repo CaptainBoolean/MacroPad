@@ -1,4 +1,10 @@
 package MacroPad.macro.impl;
 
-public class AppMacro {
+import MacroPad.macro.Macro;
+
+public class AppMacro implements Macro {
+    @Override
+    public void execute() {
+
+    }
 }

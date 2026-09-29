@@ -1,11 +1,14 @@
 package MacroPad.midi;
 
+import MacroPad.macro.MacroManager;
+
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.Receiver;
 import javax.sound.midi.ShortMessage;
 
 public class DeviceReceiver implements Receiver {
     private final PageManager pageManager;
+    private final MacroManager macroManager;
 
     private static final int[][] BUTTON_NOTES = {
             {64, 65, 66, 67, 96, 97, 98, 99},
@@ -18,8 +21,9 @@ public class DeviceReceiver implements Receiver {
             {36, 37, 38, 39, 68, 69, 70, 71}
     };
 
-    public DeviceReceiver(PageManager pageManager) {
+    public DeviceReceiver(PageManager pageManager, MacroManager macroManager) {
         this.pageManager = pageManager;
+        this.macroManager = macroManager;
     }
 
     @Override
@@ -65,7 +69,7 @@ public class DeviceReceiver implements Receiver {
             return;
         }
 
-        System.out.println("Button pressed: " + "Page: " + pageManager.getCurrentPage() + ", Note: " + note + ", Row: " + row + ", Col: " + col);
+        macroManager.executeMacro(pageManager.getCurrentPage(), row, col);
     }
 
     @Override
