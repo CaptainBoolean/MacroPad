@@ -17,6 +17,17 @@ import javafx.stage.Stage;
 public class MacroPadApp extends Application {
     private static MacroManager macroManager;
     private static PageManager pageManager;
+    private static final String[] TOP_BUTTON_NAMES = {
+            "Vol +",
+            "Vol -",
+            "Mute",
+            "Play/Pause",
+            "???",
+            "???",
+            "???",
+            "Capture",
+            "Quit"
+    };
 
     public static void setDependencies(MacroManager macroManager, PageManager pageManager) {
         MacroPadApp.macroManager = macroManager;
@@ -38,14 +49,14 @@ public class MacroPadApp extends Application {
                 Button button = new Button();
                 button.setPrefSize(82, 75);
                 button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-                button.setText((row) + ":" + (col));
-                button.setStyle("""
-                    -fx-background-color: #243248;
-                    -fx-text-fill: white;
-                    -fx-background-radius: 9;
-                    -fx-font-size: 14px;
-                    -fx-cursor: hand;
-                    """);
+
+                if (row == 0) {
+                    button.setText(TOP_BUTTON_NAMES[col]);
+                } else if (col == 8) {
+                    button.setText("" + row);
+                } else {
+                    button.setText("");
+                }
 
                 if (row == 0){
                     button.setOnAction(e -> macroManager.handleTopButtonMacros(c));
@@ -54,6 +65,13 @@ public class MacroPadApp extends Application {
                 } else {
                     button.setOnAction(e -> macroManager.executeMacro(pageManager.getCurrentPage(),  r - 1, c));
                 }
+
+                if (row == 0 || col == 8) {
+                    button.getStyleClass().add("edge-pad");
+                } else {
+                    button.getStyleClass().add("macro-pad");
+                }
+
                 grid.add(button, col, row);
             }
         }
@@ -71,6 +89,7 @@ public class MacroPadApp extends Application {
         root.setStyle("-fx-background-color: #0b1220;");
 
         Scene scene = new Scene(root, 800, 850);
+        scene.getStylesheets().add(getClass().getResource("/macropad.css").toExternalForm());
 
         stage.setTitle("MacroPad");
         stage.setMinWidth(700);

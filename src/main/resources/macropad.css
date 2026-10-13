@@ -1,0 +1,45 @@
+
+/* Root */
+.root {
+    -fx-background-color: #252629;
+    -fx-font-family: "Arial";
+}
+
+/* 8x8-Makro-Pads */
+.macro-pad {
+    -fx-background-color: #ECEDEF;
+    -fx-text-fill: #303136;
+    -fx-background-radius: 5px;
+    -fx-border-color: #D0D2D5;
+    -fx-border-radius: 5px;
+    -fx-border-width: 1px;
+    -fx-cursor: hand;
+}
+
+.macro-pad:hover {
+    -fx-background-color: #FFFFFF;
+}
+
+/* Upper Row andd Pages */
+.edge-pad {
+    -fx-background-color: #424449;
+    -fx-text-fill: #D4D5D8;
+    -fx-background-radius: 5px;
+    -fx-border-color: #55575C;
+    -fx-border-radius: 5px;
+    -fx-border-width: 1px;
+    -fx-cursor: hand;
+}
+
+.edge-pad:hover {
+    -fx-background-color: #55575C;
+}
+
+/* Pressed button */
+.macro-pad:pressed {
+    -fx-background-color: #C9CBD0;
+}
+
+.edge-pad:pressed {
+    -fx-background-color: #666970;
+}
