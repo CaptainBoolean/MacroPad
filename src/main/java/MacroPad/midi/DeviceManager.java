@@ -1,9 +1,7 @@
+
 package MacroPad.midi;
 
-import MacroPad.gui.OverlayManager;
 import MacroPad.macro.MacroManager;
-import MacroPad.macro.impl.AudioMacro;
-import MacroPad.macro.impl.GifMakro;
 
 import javax.sound.midi.MidiDevice;
 import javax.sound.midi.MidiSystem;
@@ -11,7 +9,9 @@ import javax.sound.midi.Transmitter;
 
 public class DeviceManager {
 
-    public static void start() {
+    public static void start(
+            MacroManager macroManager,
+            PageManager pageManager) {
 
         MidiDevice launchpad = findLaunchpad();
 
@@ -24,22 +24,9 @@ public class DeviceManager {
             launchpad.open();
 
             System.out.println("Launchpad connected: " + launchpad.getDeviceInfo().getName());
-
-            PageManager pageManager = new PageManager();
-            MacroManager macroManager = new MacroManager();
-            OverlayManager.startJavaFX();
-
-            AudioMacro airhorn = new AudioMacro("airhorn.mp3");
-            macroManager.setMacro(0,0,0,airhorn);
-
-            GifMakro explosion = new GifMakro("explosion.gif");
-            macroManager.setMacro(0,0,1,explosion);
-
             Transmitter transmitter = launchpad.getTransmitter();
-            transmitter.setReceiver(new DeviceReceiver(pageManager,  macroManager));
-
+            transmitter.setReceiver(new DeviceReceiver(pageManager, macroManager));
             System.out.println("Setup complete. Press a Button");
-
             Thread.sleep(Long.MAX_VALUE);
 
         } catch (Exception e) {
@@ -47,27 +34,28 @@ public class DeviceManager {
         }
     }
 
-
     private static MidiDevice findLaunchpad() {
 
         MidiDevice.Info[] devices = MidiSystem.getMidiDeviceInfo();
 
         for (MidiDevice.Info info : devices) {
+
             if (!info.getName().equals("MIDIIN2 (LPX MIDI)")) {
                 continue;
             }
 
             try {
-
                 MidiDevice device = MidiSystem.getMidiDevice(info);
 
                 if (device.getMaxTransmitters() != 0) {
                     return device;
                 }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+
         return null;
     }
 }

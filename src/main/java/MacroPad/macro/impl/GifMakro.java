@@ -44,8 +44,8 @@ public class GifMakro implements Macro {
 
                 stage.setScene(scene);
                 stage.show();
-                stage.setAlwaysOnTop(true);
-                stage.toFront();
+                //stage.setAlwaysOnTop(true);
+                //stage.toFront();
 
                 PauseTransition delay = new PauseTransition(Duration.seconds(3));
 
