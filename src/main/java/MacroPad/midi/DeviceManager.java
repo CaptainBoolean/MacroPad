@@ -9,24 +9,26 @@ import javax.sound.midi.Transmitter;
 
 public class DeviceManager {
 
-    public static void start(
-            MacroManager macroManager,
-            PageManager pageManager) {
+    public static void start(MacroManager macroManager, PageManager pageManager) {
 
         MidiDevice launchpad = findLaunchpad();
 
         if (launchpad == null) {
-            System.out.println("Launchpad not found.");
+            System.out.println("Launchpad MIDI input not found.");
             return;
         }
 
         try {
             launchpad.open();
 
-            System.out.println("Launchpad connected: " + launchpad.getDeviceInfo().getName());
+            DeviceReceiver receiver = new DeviceReceiver(pageManager, macroManager);
+
             Transmitter transmitter = launchpad.getTransmitter();
-            transmitter.setReceiver(new DeviceReceiver(pageManager, macroManager));
-            System.out.println("Setup complete. Press a Button");
+            transmitter.setReceiver(receiver);
+
+            System.out.println("Connected: " + launchpad.getDeviceInfo().getName());
+            System.out.println("Setup complete. Press a button.");
+
             Thread.sleep(Long.MAX_VALUE);
 
         } catch (Exception e) {
@@ -35,11 +37,7 @@ public class DeviceManager {
     }
 
     private static MidiDevice findLaunchpad() {
-
-        MidiDevice.Info[] devices = MidiSystem.getMidiDeviceInfo();
-
-        for (MidiDevice.Info info : devices) {
-
+        for (MidiDevice.Info info : MidiSystem.getMidiDeviceInfo()) {
             if (!info.getName().equals("MIDIIN2 (LPX MIDI)")) {
                 continue;
             }
@@ -50,7 +48,6 @@ public class DeviceManager {
                 if (device.getMaxTransmitters() != 0) {
                     return device;
                 }
-
             } catch (Exception e) {
                 e.printStackTrace();
             }

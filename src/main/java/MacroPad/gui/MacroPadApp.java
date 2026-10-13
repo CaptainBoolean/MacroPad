@@ -48,7 +48,7 @@ public class MacroPadApp extends Application {
                     """);
 
                 if (row == 0){
-
+                    button.setOnAction(e -> macroManager.handleTopButtonMacros(c));
                 } else if (col == 8) {
                     button.setOnAction(e -> pageManager.changePage(r - 1));
                 } else {
