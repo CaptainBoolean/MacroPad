@@ -61,28 +61,12 @@ public class MacroPadApp extends Application {
         Label title = new Label("MacroPad");
         title.setStyle("-fx-text-fill: white; -fx-font-size: 22px;");
 
-        Label pageLabel = new Label("Page Number: " + pageManager.getCurrentPage());
-        pageLabel.setStyle("-fx-font-size: 22px;");
-
-        Button backButton = new Button("←");
-        Button nextButton = new Button("→");
-
-        backButton.setOnAction(e -> {
-            int currentPage = pageManager.getCurrentPage();
-            pageManager.changePage((currentPage + 1) % 8);
-            pageLabel.setText("Page Number: " + (pageManager.getCurrentPage() + 1));
-        });
-
         VBox header = new VBox(10, title);
         header.setPadding(new Insets(0, 0, 15, 0));
-        HBox footer = new HBox(10, backButton, pageLabel, nextButton);
-        footer.setAlignment(Pos.CENTER);
-        footer.setPadding(new Insets(15, 0, 0, 0));
 
         BorderPane root = new BorderPane();
         root.setCenter(grid);
         root.setTop(header);
-        root.setBottom(footer);
         root.setPadding(new Insets(20));
         root.setStyle("-fx-background-color: #0b1220;");
 
