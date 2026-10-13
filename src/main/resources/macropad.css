@@ -5,6 +5,16 @@
     -fx-font-family: "Arial";
 }
 
+/* launchpad Frame */
+.launchpad-frame {
+    -fx-background-color: #000000;
+    -fx-padding: 18px;
+    -fx-background-radius: 6px;
+    -fx-border-color: #222222;
+    -fx-border-radius: 6px;
+    -fx-border-width: 2px;
+}
+
 /* 8x8-Makro-Pads */
 .macro-pad {
     -fx-background-color: #ECEDEF;

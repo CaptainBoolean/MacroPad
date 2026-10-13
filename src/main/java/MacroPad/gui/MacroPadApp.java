@@ -8,10 +8,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 public class MacroPadApp extends Application {
@@ -82,18 +79,27 @@ public class MacroPadApp extends Application {
         VBox header = new VBox(10, title);
         header.setPadding(new Insets(0, 0, 15, 0));
 
+        StackPane launchpadFrame = new StackPane(grid);
+        launchpadFrame.getStyleClass().add("launchpad-frame");
+        launchpadFrame.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+        launchpadFrame.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+
         BorderPane root = new BorderPane();
-        root.setCenter(grid);
+        root.setCenter(launchpadFrame);
+
+
         root.setTop(header);
         root.setPadding(new Insets(20));
         root.setStyle("-fx-background-color: #0b1220;");
 
-        Scene scene = new Scene(root, 800, 850);
+        Scene scene = new Scene(root, 1200, 900);
         scene.getStylesheets().add(getClass().getResource("/macropad.css").toExternalForm());
 
         stage.setTitle("MacroPad");
-        stage.setMinWidth(700);
-        stage.setMinHeight(750);
+        stage.setMinWidth(1100);
+        stage.setMinHeight(900);
+        stage.setWidth(1200);
+        stage.setHeight(900);
         stage.setScene(scene);
         stage.show();
     }
