@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 public class MacroPadApp extends Application {
     private static MacroManager macroManager;
     private static PageManager pageManager;
+    private static boolean configureMode = false;
     private static final String[] TOP_BUTTON_NAMES = {
             "Vol +",
             "Vol -",
@@ -60,7 +61,14 @@ public class MacroPadApp extends Application {
                 } else if (col == 8) {
                     button.setOnAction(e -> pageManager.changePage(r - 1));
                 } else {
-                    button.setOnAction(e -> macroManager.executeMacro(pageManager.getCurrentPage(),  r - 1, c));
+                    button.setOnAction(e -> {
+                        if (configureMode) {
+                            System.out.println("Chosen Button: Page " + pageManager.getCurrentPage() + ", Row" + (r - 1) + ", Col" + c);
+
+                        } else {
+                            macroManager.executeMacro(pageManager.getCurrentPage(),  r - 1, c);
+                        }
+                    });
                 }
 
                 if (row == 0 || col == 8) {
@@ -73,10 +81,18 @@ public class MacroPadApp extends Application {
             }
         }
 
-        Label title = new Label("MacroPad");
-        title.setStyle("-fx-text-fill: white; -fx-font-size: 22px;");
+        Button configureButton = new Button("Configure Button");
+        configureButton.setOnAction(e -> {
+            configureMode = !configureMode;
 
-        VBox header = new VBox(10, title);
+            if(configureMode) {
+                configureButton.setText("Cancel Configuration");
+            } else {
+                configureButton.setText("Configure Button");
+            }
+        });
+
+        VBox header = new VBox(10, configureButton);
         header.setPadding(new Insets(0, 0, 15, 0));
 
         StackPane launchpadFrame = new StackPane(grid);
