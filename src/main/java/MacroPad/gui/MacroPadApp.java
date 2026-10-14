@@ -14,7 +14,13 @@ import javafx.stage.Stage;
 public class MacroPadApp extends Application {
     private static MacroManager macroManager;
     private static PageManager pageManager;
+
     private static boolean configureMode = false;
+    private int selectedPage = -1;
+    private int selectedRow = -1;
+    private int selectedCol = -1;
+
+
     private static final String[] TOP_BUTTON_NAMES = {
             "Vol +",
             "Vol -",
@@ -38,6 +44,9 @@ public class MacroPadApp extends Application {
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(9);
         grid.setVgap(9);
+
+        Label selectedButton = new Label("No Button selected");
+        selectedButton.setStyle("-fx-text-fill: white;");
 
         for(int row = 0; row < 9; row++) {
             for(int col = 0; col < 9; col++) {
@@ -63,7 +72,11 @@ public class MacroPadApp extends Application {
                 } else {
                     button.setOnAction(e -> {
                         if (configureMode) {
-                            System.out.println("Chosen Button: Page " + pageManager.getCurrentPage() + ", Row" + (r - 1) + ", Col" + c);
+                            selectedPage = pageManager.getCurrentPage();
+                            selectedRow = r - 1;
+                            selectedCol = c;
+
+                            selectedButton.setText("Page: " +  (selectedPage + 1) + " Row: " + (selectedRow + 1) + " Col: " + (selectedCol + 1));
 
                         } else {
                             macroManager.executeMacro(pageManager.getCurrentPage(),  r - 1, c);
@@ -89,6 +102,7 @@ public class MacroPadApp extends Application {
                 configureButton.setText("Cancel Configuration");
             } else {
                 configureButton.setText("Configure Button");
+                selectedButton.setText("No Button selected");
             }
         });
 
@@ -114,7 +128,7 @@ public class MacroPadApp extends Application {
         settingsTitle.setAlignment(Pos.CENTER);
         settingsTitle.setStyle("-fx-text-fill: white; -fx-font-size: 18px;");
 
-        settingsPanel.getChildren().add(settingsTitle);
+        settingsPanel.getChildren().addAll(settingsTitle, selectedButton);
 
         HBox content = new HBox(30, launchpadFrame, settingsPanel);
         content.setAlignment(Pos.TOP_LEFT);
@@ -126,7 +140,7 @@ public class MacroPadApp extends Application {
         root.setPadding(new Insets(20));
         root.setStyle("-fx-background-color: #0b1220;");
 
-        Scene scene = new Scene(root, 1200, 900);
+        Scene scene = new Scene(root, 1300, 920);
         scene.getStylesheets().add(getClass().getResource("/macropad.css").toExternalForm());
 
         stage.setTitle("MacroPad");
