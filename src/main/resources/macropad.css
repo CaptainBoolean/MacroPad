@@ -53,3 +53,13 @@
 .edge-pad:pressed {
     -fx-background-color: #666970;
 }
+
+/* Settings Panel */
+.settings-panel {
+    -fx-background-color: #424449;
+    -fx-text-fill: #D4D5D8;
+    -fx-background-radius: 5px;
+    -fx-border-color: #55575C;
+    -fx-border-radius: 5px;
+    -fx-border-width: 1px;
+}

@@ -1,14 +1,16 @@
 package MacroPad.macro;
 
+import MacroPad.macro.impl.QuitMacro;
 import MacroPad.macro.impl.VolumeMacro;
 
 public class MacroManager {
     private final Macro[][][] macros = new Macro[8][8][8];
-    private final Macro[] topMacros = new Macro[8];
+    private final Macro[] topMacros = new Macro[9];
 
     public MacroManager() {
         topMacros[0] = new VolumeMacro(VolumeMacro.Action.UP);
         topMacros[1] = new VolumeMacro(VolumeMacro.Action.DOWN);
+        topMacros[8] = new QuitMacro();
     }
 
     public void setMacro(int page, int row, int col, Macro macro) {
@@ -34,8 +36,11 @@ public class MacroManager {
             case 1:
                 topMacros[1].execute();
                 break;
+            case 8:
+                topMacros[8].execute();
+                break;
             default:
-                System.out.println("Kein Makro für Spalte " + col + "definiert");
+                System.out.println("Kein Makro für Spalte " + col + " definiert");
                 break;
         }
     }
