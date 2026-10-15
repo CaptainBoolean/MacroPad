@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
 public class LaunchpadGrid extends GridPane {
+    private static Button selectedPad;
 
     private static final String[] TOP_BUTTON_NAMES = {
             "Vol +", "Vol -", "Mute", "Play/Pause", "???", "???", "???", "Capture", "Quit"
@@ -40,9 +41,18 @@ public class LaunchpadGrid extends GridPane {
 
                     button.setOnAction(e -> {
                         if (settingsPanel.isConfigureMode()) {
+                            if (selectedPad != null) {
+                                selectedPad.getStyleClass().remove("selected-pad");
+                            }
+
+                            selectedPad = button;
+                            selectedPad.getStyleClass().add("selected-pad");
+
                             settingsPanel.selectButton(pageManager.getCurrentPage(), r - 1, c);
+
                         } else {
                             macroManager.executeMacro(pageManager.getCurrentPage(), r - 1, c);
+                            settingsPanel.selectButton(pageManager.getCurrentPage(), r - 1, c);
                         }
                     });
                 }
@@ -55,6 +65,13 @@ public class LaunchpadGrid extends GridPane {
 
                 add(button, col, row);
             }
+        }
+    }
+
+    public static void clearSelectedPad() {
+        if (selectedPad != null) {
+            selectedPad.getStyleClass().remove("selected-pad");
+            selectedPad = null;
         }
     }
 }

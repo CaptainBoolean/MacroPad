@@ -54,6 +54,17 @@
     -fx-background-color: #666970;
 }
 
+/* Config Mode button pressed */
+.macro-pad.selected-pad {
+    -fx-background-color: #E53935;
+    -fx-border-color: #B71C1C;
+    -fx-border-width: 2px;
+}
+
+.macro-pad.selected-pad:hover {
+    -fx-background-color: #FF7773;
+}
+
 /* Settings Panel */
 .settings-panel {
     -fx-background-color: #424449;

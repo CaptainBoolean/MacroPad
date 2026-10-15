@@ -14,7 +14,7 @@ public class ButtonSettingsPanel extends VBox {
 
     private boolean configureMode = false;
 
-    private final Button configureButton = new Button("Configure Button");
+    private final Button configureButton = new Button("Button Configure Mode");
     private final Label selectedButton = new Label("No Button selected");
     private final TextField buttonNameField = new TextField();
     private final Button saveButton = new Button("Save");
@@ -47,8 +47,8 @@ public class ButtonSettingsPanel extends VBox {
         cancelButton.setOnAction(e -> loadSelectedName());
 
         getChildren().addAll(
-                configureButton,
                 title,
+                configureButton,
                 selectedButton,
                 new Label("Button Name"),
                 buttonNameField,
@@ -64,15 +64,25 @@ public class ButtonSettingsPanel extends VBox {
         configManager.selectButton(page, row, col);
         selectedButton.setText("Page: " + (page + 1) + " Row: " + (row + 1) + " Col: " + (col + 1));
         loadSelectedName();
+
+        saveButton.setDisable(!configureMode);
+        cancelButton.setDisable(!configureMode);
     }
 
     private void toggleConfigureMode() {
         configureMode = !configureMode;
 
-        configureButton.setText(configureMode ? "Cancel Configuration" : "Configure Button");
+        if (!configureMode) {
+            LaunchpadGrid.clearSelectedPad();
+        }
+
+        configureButton.setText(configureMode ? "Cancel Configuration" : "Button Configure Mode");
         buttonNameField.setEditable(configureMode);
         saveButton.setDisable(!configureMode || !configManager.hasSelection());
         cancelButton.setDisable(!configureMode || !configManager.hasSelection());
+
+        System.out.println("Configure Mode: " + configureMode);
+        System.out.println("Editable: " + buttonNameField.isEditable());
     }
 
     private void saveName() {
