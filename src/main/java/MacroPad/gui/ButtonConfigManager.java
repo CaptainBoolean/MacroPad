@@ -2,6 +2,7 @@ package MacroPad.gui;
 
 public class ButtonConfigManager {
     private final String[][][] buttonNames = new String[8][8][8];
+    private final String[][][] buttonMacroTypes = new String[8][8][8];
     private int selectedPage = -1;
     private int selectedRow = -1;
     private int selectedCol = -1;
@@ -31,5 +32,22 @@ public class ButtonConfigManager {
         }
 
         buttonNames[selectedPage][selectedRow][selectedCol] = name;
+    }
+
+    public String getSelectedMacroType() {
+        if (!hasSelection()){
+            return "None";
+        }
+
+        String type = buttonMacroTypes[selectedPage][selectedRow][selectedCol];
+        return type == null ? "None" : type;
+    }
+
+    public void saveSelectedMacroType(String type) {
+        if (!hasSelection()){
+            return;
+        }
+
+        buttonMacroTypes[selectedPage][selectedRow][selectedCol] = type;
     }
 }
