@@ -50,4 +50,16 @@ public class ButtonConfigManager {
 
         buttonMacroTypes[selectedPage][selectedRow][selectedCol] = type;
     }
+
+    public int getSelectedPage() {
+        return selectedPage;
+    }
+
+    public int getSelectedRow() {
+        return selectedRow;
+    }
+
+    public int getSelectedCol() {
+        return selectedCol;
+    }
 }

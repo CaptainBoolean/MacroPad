@@ -26,7 +26,7 @@ public class MacroPadApp extends Application {
     @Override
     public void start(Stage stage) {
         ButtonConfigManager configManager = new ButtonConfigManager();
-        ButtonSettingsPanel settingsPanel = new ButtonSettingsPanel(configManager);
+        ButtonSettingsPanel settingsPanel = new ButtonSettingsPanel(macroManager, configManager);
         LaunchpadGrid launchpadGrid = new LaunchpadGrid(macroManager, pageManager, settingsPanel);
 
         VBox header = new VBox(10);

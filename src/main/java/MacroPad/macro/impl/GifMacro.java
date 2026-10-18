@@ -11,13 +11,12 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
-import java.io.FileInputStream;
 import java.io.InputStream;
 
-public class GifMakro implements Macro {
+public class GifMacro implements Macro {
     private final String filePath;
 
-    public GifMakro(String filePath) {
+    public GifMacro(String filePath) {
         this.filePath = filePath;
     }
 

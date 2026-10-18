@@ -3,7 +3,7 @@ package MacroPad;
 import MacroPad.gui.MacroPadApp;
 import MacroPad.macro.MacroManager;
 import MacroPad.macro.impl.AudioMacro;
-import MacroPad.macro.impl.GifMakro;
+import MacroPad.macro.impl.GifMacro;
 import MacroPad.midi.DeviceManager;
 import MacroPad.midi.PageManager;
 import javafx.application.Application;
@@ -16,7 +16,7 @@ public class Main {
         PageManager pageManager = new PageManager();
 
         macroManager.setMacro(0, 0, 0, new AudioMacro("airhorn.mp3"));
-        macroManager.setMacro(0, 0, 1, new GifMakro("explosion.gif"));
+        macroManager.setMacro(0, 0, 1, new GifMacro("explosion.gif"));
 
         MacroPadApp.setDependencies(macroManager, pageManager);
 

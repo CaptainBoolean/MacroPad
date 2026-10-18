@@ -1,5 +1,9 @@
 package MacroPad.gui;
 
+import MacroPad.macro.Macro;
+import MacroPad.macro.MacroManager;
+import MacroPad.macro.impl.AudioMacro;
+import MacroPad.macro.impl.GifMacro;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -11,6 +15,7 @@ import javafx.scene.layout.VBox;
 
 public class ButtonSettingsPanel extends VBox {
 
+    private final MacroManager macroManager;
     private final ButtonConfigManager configManager;
 
     private boolean configureMode = false;
@@ -22,7 +27,8 @@ public class ButtonSettingsPanel extends VBox {
     private final Button cancelButton = new Button("Cancel");
     private final ComboBox<String> macroTypeBox = new ComboBox<>();
 
-    public ButtonSettingsPanel(ButtonConfigManager configManager) {
+    public ButtonSettingsPanel(MacroManager macroManager, ButtonConfigManager configManager) {
+        this.macroManager = macroManager;
         this.configManager = configManager;
 
         setSpacing(10);
@@ -46,7 +52,7 @@ public class ButtonSettingsPanel extends VBox {
         cancelButton.setDisable(true);
 
         configureButton.setOnAction(e -> toggleConfigureMode());
-        saveButton.setOnAction(e -> saveName());
+        saveButton.setOnAction(e -> saveConfig());
         cancelButton.setOnAction(e -> loadSelectedName());
 
         macroTypeBox.getItems().addAll(
@@ -79,6 +85,7 @@ public class ButtonSettingsPanel extends VBox {
         loadSelectedName();
         macroTypeBox.setValue(configManager.getSelectedMacroType());
 
+        buttonNameField.setDisable(!configureMode);
         macroTypeBox.setDisable(!configureMode || !configManager.hasSelection());
         saveButton.setDisable(!configureMode);
         cancelButton.setDisable(!configureMode);
@@ -102,13 +109,30 @@ public class ButtonSettingsPanel extends VBox {
         System.out.println("Editable: " + buttonNameField.isEditable());
     }
 
-    private void saveName() {
+    private void saveConfig() {
         if (!configureMode || !configManager.hasSelection()) {
             return;
         }
 
         configManager.saveSelectedName(buttonNameField.getText().trim());
-        configManager.saveSelectedMacroType(macroTypeBox.getValue());
+
+        String macroType = macroTypeBox.getValue();
+        configManager.saveSelectedMacroType(macroType);
+
+        int page = configManager.getSelectedPage();
+        int row = configManager.getSelectedRow();
+        int col = configManager.getSelectedCol();
+
+        Macro macro = switch (macroType) {
+            case "Audio" -> new AudioMacro("");
+            case "Gif" -> new GifMacro("");
+            case "System" -> null;
+            case "None" -> null;
+            default -> null;
+        };
+
+        macroManager.setMacro(page, row, col, macro);
+
         loadSelectedName();
     }
 
