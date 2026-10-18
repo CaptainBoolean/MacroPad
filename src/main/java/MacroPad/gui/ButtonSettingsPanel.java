@@ -12,6 +12,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Window;
+
+import java.io.File;
 
 public class ButtonSettingsPanel extends VBox {
 
@@ -26,6 +30,10 @@ public class ButtonSettingsPanel extends VBox {
     private final Button saveButton = new Button("Save");
     private final Button cancelButton = new Button("Cancel");
     private final ComboBox<String> macroTypeBox = new ComboBox<>();
+    private final TextField audioPathField = new TextField();
+    private final Button audioPathBrowseButton = new Button("Browse...");
+
+    private final HBox audioSettings = new HBox(10, audioPathField, audioPathBrowseButton);
 
     public ButtonSettingsPanel(MacroManager macroManager, ButtonConfigManager configManager) {
         this.macroManager = macroManager;
@@ -48,6 +56,13 @@ public class ButtonSettingsPanel extends VBox {
         buttonNameField.setEditable(false);
         buttonNameField.setDisable(true);
 
+        audioSettings.setVisible(false);
+        audioSettings.setManaged(false);
+        audioPathField.setPromptText("Select Audio Path");
+        audioPathField.setEditable(false);
+        audioPathField.setDisable(true);
+        audioPathBrowseButton.setDisable(true);
+
         saveButton.setDisable(true);
         cancelButton.setDisable(true);
 
@@ -62,6 +77,21 @@ public class ButtonSettingsPanel extends VBox {
                 "System"
         );
 
+        macroTypeBox.setOnAction(e -> {updateAudioSettings();});
+
+        audioPathBrowseButton.setOnAction(e -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Select Audio Path");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Audio Files", "*.mp3"));
+
+            Window window = getScene() != null ? getScene().getWindow() : null;
+            File selectedFile = fileChooser.showOpenDialog(window);
+
+            if (selectedFile != null) {
+                audioPathField.setText(selectedFile.getAbsolutePath());
+            }
+        });
+
         macroTypeBox.setValue("None");
         macroTypeBox.setDisable(true);
 
@@ -71,6 +101,7 @@ public class ButtonSettingsPanel extends VBox {
                 selectedButton,
                 new HBox(10, new Label("Button Name"), buttonNameField),
                 new HBox(10, new Label("Macro Type"), macroTypeBox),
+                audioSettings,
                 new HBox(10, saveButton, cancelButton)
         );
     }
@@ -89,6 +120,8 @@ public class ButtonSettingsPanel extends VBox {
         macroTypeBox.setDisable(!configureMode || !configManager.hasSelection());
         saveButton.setDisable(!configureMode);
         cancelButton.setDisable(!configureMode);
+
+        updateAudioSettings();
     }
 
     private void toggleConfigureMode() {
@@ -105,6 +138,8 @@ public class ButtonSettingsPanel extends VBox {
         saveButton.setDisable(!configureMode || !configManager.hasSelection());
         cancelButton.setDisable(!configureMode || !configManager.hasSelection());
 
+        updateAudioSettings();
+
         System.out.println("Configure Mode: " + configureMode);
         System.out.println("Editable: " + buttonNameField.isEditable());
     }
@@ -114,29 +149,63 @@ public class ButtonSettingsPanel extends VBox {
             return;
         }
 
-        configManager.saveSelectedName(buttonNameField.getText().trim());
-
         String macroType = macroTypeBox.getValue();
-        configManager.saveSelectedMacroType(macroType);
+
+        if (macroType == null) {
+            return;
+        }
 
         int page = configManager.getSelectedPage();
         int row = configManager.getSelectedRow();
         int col = configManager.getSelectedCol();
 
-        Macro macro = switch (macroType) {
-            case "Audio" -> new AudioMacro("");
-            case "Gif" -> new GifMacro("");
-            case "System" -> null;
-            case "None" -> null;
-            default -> null;
-        };
+        Macro macro;
+
+        switch (macroType) {
+            case "Audio" -> {
+                String path = audioPathField.getText().trim();
+
+                if (path.isEmpty() || !new File(path).isFile()) {
+                    System.out.println("Audio Path is not valid");
+                    return;
+                }
+
+                macro = new AudioMacro(path);
+            }
+            case "Gif" -> {
+                macro = new GifMacro("");
+            }
+            case "System", "None" -> macro = null;
+            default -> {
+                return;
+            }
+        }
+
+        configManager.saveSelectedName(buttonNameField.getText().trim());
+        configManager.saveSelectedMacroType(macroType);
 
         macroManager.setMacro(page, row, col, macro);
 
         loadSelectedName();
+
+        System.out.println("Config saved: " + macroType);
     }
 
     private void loadSelectedName() {
         buttonNameField.setText(configManager.getSelectedName());
+    }
+
+    private void updateAudioSettings() {
+        boolean showAudioSettings =
+                configManager.hasSelection()
+                        && "Audio".equals(macroTypeBox.getValue());
+
+        audioSettings.setVisible(showAudioSettings);
+        audioSettings.setManaged(showAudioSettings);
+
+        boolean editable = showAudioSettings && configureMode;
+
+        audioPathField.setDisable(!editable);
+        audioPathBrowseButton.setDisable(!editable);
     }
 }
