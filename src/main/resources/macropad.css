@@ -65,20 +65,69 @@
     -fx-background-color: #FF7773;
 }
 
-/* Sidebar Panel */
-.sidebar-panel {
-    -fx-background-color: #424449;
-    -fx-background-radius: 0;
-    -fx-border-radius: 0;
-    -fx-border-width: 0 1 0 0;
-    -fx-border-color: transparent #55575C transparent transparent;
-}
-
 /* Settings Panel */
 .settings-panel {
-    -fx-background-color: #424449;
-    -fx-background-radius: 0;
-    -fx-border-radius: 0;
-    -fx-border-width: 0 0 0 1;
-    -fx-border-color: transparent transparent transparent #55575C;
+    -fx-background-color: linear-gradient(
+        to bottom,
+        #171b2b 0%,
+        #202033 50%,
+        #252038 100%
+    );
+
+    -fx-border-color: transparent transparent transparent #000000;
+    -fx-border-width: 0 0 0 2px;
 }
+
+/* Sidebar Panel */
+.sidebar-panel {
+    -fx-background-color: linear-gradient(
+        to bottom right,
+        #0f172a 0%,
+        #1d4ed8 25%,
+        #6366f1 50%,
+        #7e22ce 75%,
+        #2e1065 100%
+    );
+
+    -fx-border-color: transparent #000000 transparent transparent;
+    -fx-border-width: 0 2px 0 0;
+}
+
+/* Sidebar-Buttons */
+.sidebar-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #cbd5e1;
+    -fx-font-size: 14px;
+    -fx-font-weight: normal;
+
+    -fx-alignment: CENTER_LEFT;
+    -fx-content-display: LEFT;
+    -fx-graphic-text-gap: 12px;
+
+    -fx-padding: 12px 14px;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-border-color: transparent;
+
+    -fx-cursor: hand;
+    -fx-max-width: infinity;
+}
+
+/* Maus darüber */
+.sidebar-button:hover {
+    -fx-background-color: #1e2b42;
+    -fx-text-fill: white;
+}
+
+/* Ausgewählter Menüpunkt */
+.sidebar-button.active {
+    -fx-background-color: #1d3b68;
+    -fx-text-fill: #8bb8ff;
+    -fx-font-weight: bold;
+}
+
+/* Beim Klicken */
+.sidebar-button:pressed {
+    -fx-background-color: #294b7d;
+}
+

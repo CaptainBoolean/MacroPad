@@ -49,7 +49,7 @@ public class MacroPadApp extends Application {
         root.setCenter(threePillars);
         root.setPadding(Insets.EMPTY);
 
-        VBox mainLayout = new VBox(new MacroPadMenuBar(), root);
+        VBox mainLayout = new VBox(root);
         VBox.setVgrow(root, Priority.ALWAYS);
         root.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
