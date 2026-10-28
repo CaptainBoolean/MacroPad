@@ -29,26 +29,36 @@ public class SidebarPanel extends VBox {
 
         Button loadConfigButton = new Button("Load Config");
         loadConfigButton.getStyleClass().add("sidebar-button");
-        loadConfigButton.setGraphic(new FontIcon(FontAwesomeRegular.FOLDER_OPEN));
+        FontIcon loadIcon = new FontIcon(FontAwesomeRegular.FOLDER_OPEN);
+        loadIcon.setIconSize(22);
+        loadConfigButton.setGraphic(loadIcon);
 
         Button saveConfigButton = new Button("Save Config");
         saveConfigButton.getStyleClass().add("sidebar-button");
-        saveConfigButton.setGraphic(new FontIcon(FontAwesomeSolid.SAVE));
+        FontIcon saveIcon = new FontIcon(FontAwesomeSolid.SAVE);
+        saveIcon.setIconSize(22);
+        saveConfigButton.setGraphic(saveIcon);
 
         Button profilesButton = new Button("Profiles");
         profilesButton.getStyleClass().add("sidebar-button");
-        profilesButton.setGraphic(new FontIcon(FontAwesomeSolid.BOXES));
+        FontIcon profilesIcon = new FontIcon(FontAwesomeSolid.BOXES);
+        profilesIcon.setIconSize(22);
+        profilesButton.setGraphic(profilesIcon);
 
         Button macroLibraryButton = new Button("Macro Library");
         macroLibraryButton.getStyleClass().add("sidebar-button");
-        macroLibraryButton.setGraphic(new FontIcon(FontAwesomeSolid.BOOK));
+        FontIcon libraryIcon = new FontIcon(FontAwesomeSolid.BOOK);
+        libraryIcon.setIconSize(22);
+        macroLibraryButton.setGraphic(libraryIcon);
 
         Region settingButtonSpacer = new Region();
         VBox.setVgrow(settingButtonSpacer, Priority.ALWAYS);
 
         Button settingsButton = new Button("Settings");
         settingsButton.getStyleClass().add("sidebar-button");
-        settingsButton.setGraphic(new FontIcon(FontAwesomeSolid.COG));
+        FontIcon settingsIcon = new FontIcon(FontAwesomeSolid.COG);
+        settingsIcon.setIconSize(22);
+        settingsButton.setGraphic(settingsIcon);
 
         loadConfigButton.setMaxWidth(Double.MAX_VALUE);
         saveConfigButton.setMaxWidth(Double.MAX_VALUE);
