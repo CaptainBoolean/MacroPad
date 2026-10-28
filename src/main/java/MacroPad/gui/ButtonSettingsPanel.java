@@ -41,8 +41,6 @@ public class ButtonSettingsPanel extends VBox {
 
         setSpacing(10);
         setPadding(new Insets(20, 10, 20, 10));
-        setPrefWidth(320);
-        setMinWidth(320);
         getStyleClass().add("settings-panel");
 
         Label title = new Label("Button Settings");

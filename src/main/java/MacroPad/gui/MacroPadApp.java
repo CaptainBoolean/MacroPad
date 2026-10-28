@@ -6,11 +6,7 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.layout.Region;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 public class MacroPadApp extends Application {
@@ -28,28 +24,37 @@ public class MacroPadApp extends Application {
         ButtonConfigManager configManager = new ButtonConfigManager();
         ButtonSettingsPanel settingsPanel = new ButtonSettingsPanel(macroManager, configManager);
         LaunchpadGrid launchpadGrid = new LaunchpadGrid(macroManager, pageManager, settingsPanel);
+        SidebarPanel sidebar = new SidebarPanel();
 
         StackPane launchpadFrame = new StackPane(launchpadGrid);
+        launchpadFrame.setAlignment(Pos.CENTER);
         launchpadFrame.getStyleClass().add("launchpad-frame");
         launchpadFrame.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
         launchpadFrame.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
 
-        settingsPanel.prefHeightProperty().bind(launchpadFrame.heightProperty());
-        settingsPanel.minHeightProperty().bind(launchpadFrame.heightProperty());
-        settingsPanel.maxHeightProperty().bind(launchpadFrame.heightProperty());
+        HBox threePillars = new HBox(100);
+        threePillars.setPadding(Insets.EMPTY);
+        threePillars.setAlignment(Pos.CENTER);
+        threePillars.setFillHeight(true);
 
-        HBox content = new HBox(30, launchpadFrame, settingsPanel);
-        content.setAlignment(Pos.CENTER);
-        content.setPadding(new Insets(10));
+        HBox.setHgrow(sidebar, Priority.ALWAYS);
+        HBox.setHgrow(launchpadFrame, Priority.NEVER);
+        HBox.setHgrow(settingsPanel, Priority.ALWAYS);
+        sidebar.setMaxWidth(Double.MAX_VALUE);
+        settingsPanel.setMaxWidth(Double.MAX_VALUE);
+
+        threePillars.getChildren().addAll(sidebar, launchpadFrame, settingsPanel);
 
         BorderPane root = new BorderPane();
-        root.setCenter(content);
-        root.setPadding(new Insets(20));
+        root.setCenter(threePillars);
+        root.setPadding(Insets.EMPTY);
 
-        VBox mainLayout = new VBox(
-                new MacroPadMenuBar(),
-                root
-        );
+        VBox mainLayout = new VBox(new MacroPadMenuBar(), root);
+        VBox.setVgrow(root, Priority.ALWAYS);
+        root.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+
+        sidebar.prefHeightProperty().bind(root.heightProperty());
+        settingsPanel.prefHeightProperty().bind(root.heightProperty());
 
         Scene scene = new Scene(mainLayout);
         scene.getStylesheets().add(getClass().getResource("/macropad.css").toExternalForm());
