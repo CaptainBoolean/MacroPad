@@ -29,9 +29,6 @@ public class MacroPadApp extends Application {
         ButtonSettingsPanel settingsPanel = new ButtonSettingsPanel(macroManager, configManager);
         LaunchpadGrid launchpadGrid = new LaunchpadGrid(macroManager, pageManager, settingsPanel);
 
-        VBox header = new VBox(10);
-        header.setPadding(new Insets(0, 0, 15, 0));
-
         StackPane launchpadFrame = new StackPane(launchpadGrid);
         launchpadFrame.getStyleClass().add("launchpad-frame");
         launchpadFrame.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
@@ -42,21 +39,23 @@ public class MacroPadApp extends Application {
         settingsPanel.maxHeightProperty().bind(launchpadFrame.heightProperty());
 
         HBox content = new HBox(30, launchpadFrame, settingsPanel);
-        content.setAlignment(Pos.TOP_LEFT);
+        content.setAlignment(Pos.CENTER);
         content.setPadding(new Insets(10));
 
         BorderPane root = new BorderPane();
         root.setCenter(content);
-        root.setTop(header);
         root.setPadding(new Insets(20));
-        root.setStyle("-fx-background-color: #0b1220;");
 
-        Scene scene = new Scene(root, 1300, 920);
+        VBox mainLayout = new VBox(
+                new MacroPadMenuBar(),
+                root
+        );
+
+        Scene scene = new Scene(mainLayout);
         scene.getStylesheets().add(getClass().getResource("/macropad.css").toExternalForm());
 
         stage.setTitle("MacroPad");
-        stage.setMinWidth(1300);
-        stage.setMinHeight(920);
+        stage.setMaximized(true);
         stage.setScene(scene);
         stage.show();
     }
