@@ -1,11 +1,18 @@
 
-/* Root */
+/* ==================================================
+   ROOT
+   ================================================== */
+
 .root {
     -fx-background-color: #6a6d7a;
     -fx-font-family: "Arial";
 }
 
-/* launchpad Frame */
+
+/* ==================================================
+   LAUNCHPAD FRAME
+   ================================================== */
+
 .launchpad-frame {
     -fx-background-color: #000000;
     -fx-padding: 18px;
@@ -15,7 +22,13 @@
     -fx-border-width: 2px;
 }
 
-/* 8x8-Makro-Pads */
+
+/* ==================================================
+   LAUNCHPAD PADS
+   ================================================== */
+
+/* 8x8 Macro Pads */
+
 .macro-pad {
     -fx-background-color: #ECEDEF;
     -fx-text-fill: #303136;
@@ -30,7 +43,24 @@
     -fx-background-color: #FFFFFF;
 }
 
-/* Upper Row andd Pages */
+.macro-pad:pressed {
+    -fx-background-color: #C9CBD0;
+}
+
+/* Selected Macro Pad */
+
+.macro-pad.selected-pad {
+    -fx-background-color: #E53935;
+    -fx-border-color: #B71C1C;
+    -fx-border-width: 2px;
+}
+
+.macro-pad.selected-pad:hover {
+    -fx-background-color: #FF7773;
+}
+
+/* Top Row and Page Buttons */
+
 .edge-pad {
     -fx-background-color: #424449;
     -fx-text-fill: #D4D5D8;
@@ -45,40 +75,15 @@
     -fx-background-color: #55575C;
 }
 
-/* Pressed button */
-.macro-pad:pressed {
-    -fx-background-color: #C9CBD0;
-}
-
 .edge-pad:pressed {
     -fx-background-color: #666970;
 }
 
-/* Config Mode button pressed */
-.macro-pad.selected-pad {
-    -fx-background-color: #E53935;
-    -fx-border-color: #B71C1C;
-    -fx-border-width: 2px;
-}
 
-.macro-pad.selected-pad:hover {
-    -fx-background-color: #FF7773;
-}
+/* ==================================================
+   SIDEBAR
+   ================================================== */
 
-/* Settings Panel */
-.settings-panel {
-    -fx-background-color: linear-gradient(
-        to bottom,
-        #171b2b 0%,
-        #202033 50%,
-        #252038 100%
-    );
-
-    -fx-border-color: transparent transparent transparent #000000;
-    -fx-border-width: 0 0 0 2px;
-}
-
-/* Sidebar Panel */
 .sidebar-panel {
     -fx-background-color: linear-gradient(
         to bottom right,
@@ -93,7 +98,8 @@
     -fx-border-width: 0 2px 0 0;
 }
 
-/* Sidebar-Buttons */
+/* Sidebar Buttons */
+
 .sidebar-button {
     -fx-background-color: transparent;
     -fx-text-fill: #cbd5e1;
@@ -113,21 +119,135 @@
     -fx-max-width: infinity;
 }
 
-/* Maus darüber */
 .sidebar-button:hover {
     -fx-background-color: #1e2b42;
     -fx-text-fill: white;
 }
 
-/* Ausgewählter Menüpunkt */
 .sidebar-button.active {
     -fx-background-color: #1d3b68;
     -fx-text-fill: #8bb8ff;
     -fx-font-weight: bold;
 }
 
-/* Beim Klicken */
 .sidebar-button:pressed {
     -fx-background-color: #294b7d;
 }
 
+
+/* ==================================================
+   BUTTON SETTINGS PANEL
+   ================================================== */
+
+.settings-panel {
+    -fx-background-color: linear-gradient(
+        to bottom,
+        #171b2b 0%,
+        #202033 50%,
+        #252038 100%
+    );
+
+    -fx-border-color: transparent transparent transparent #000000;
+    -fx-border-width: 0 0 0 2px;
+}
+
+/* Labels */
+
+.settings-panel .label {
+    -fx-text-fill: #e2e5f0;
+}
+
+/* Buttons */
+
+.settings-panel .button {
+    -fx-background-color: #34364b;
+    -fx-text-fill: #f1f2f8;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+
+    -fx-padding: 9px 14px;
+    -fx-background-radius: 6px;
+    -fx-border-radius: 6px;
+    -fx-border-color: #484a63;
+    -fx-border-width: 1px;
+
+    -fx-cursor: hand;
+}
+
+.settings-panel .button:hover {
+    -fx-background-color: #464967;
+    -fx-border-color: #777ba5;
+}
+
+.settings-panel .button:pressed {
+    -fx-background-color: #292b3d;
+}
+
+.settings-panel .button:disabled {
+    -fx-opacity: 0.45;
+    -fx-cursor: default;
+}
+
+/* Configure Mode Button */
+
+.settings-panel > .button {
+    -fx-background-color: #454779;
+    -fx-border-color: #6669a5;
+}
+
+.settings-panel > .button:hover {
+    -fx-background-color: #555991;
+}
+
+/* Text Fields and Combo Boxes */
+
+.settings-panel .text-field,
+.settings-panel .combo-box {
+    -fx-background-color: #252737;
+    -fx-text-fill: #f1f2f8;
+    -fx-prompt-text-fill: #8589a1;
+
+    -fx-background-radius: 5px;
+    -fx-border-color: #41445c;
+    -fx-border-radius: 5px;
+    -fx-border-width: 1px;
+
+    -fx-padding: 7px 9px;
+}
+
+.settings-panel .text-field:focused,
+.settings-panel .combo-box:focused {
+    -fx-border-color: #888be0;
+}
+
+.settings-panel .text-field:disabled,
+.settings-panel .combo-box:disabled {
+    -fx-opacity: 0.65;
+}
+
+/* Combo Box Dropdown */
+
+.settings-panel .combo-box .list-cell {
+    -fx-text-fill: #f1f2f8;
+    -fx-background-color: transparent;
+}
+
+.settings-panel .combo-box-popup .list-view {
+    -fx-background-color: #252737;
+    -fx-border-color: #41445c;
+}
+
+.settings-panel .combo-box-popup .list-cell {
+    -fx-text-fill: #f1f2f8;
+    -fx-padding: 7px 10px;
+}
+
+.settings-panel .combo-box-popup .list-cell:hover {
+    -fx-background-color: #454779;
+}
+
+/* Separator */
+
+.settings-panel .separator .line {
+    -fx-border-color: #41445c;
+}

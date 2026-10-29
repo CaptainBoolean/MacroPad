@@ -26,6 +26,10 @@ public class MacroPadApp extends Application {
         LaunchpadGrid launchpadGrid = new LaunchpadGrid(macroManager, pageManager, settingsPanel);
         SidebarPanel sidebar = new SidebarPanel();
 
+        settingsPanel.setMinWidth(320);
+        settingsPanel.setPrefWidth(320);
+        settingsPanel.setMaxWidth(320);
+
         StackPane launchpadFrame = new StackPane(launchpadGrid);
         launchpadFrame.setAlignment(Pos.CENTER);
         launchpadFrame.getStyleClass().add("launchpad-frame");

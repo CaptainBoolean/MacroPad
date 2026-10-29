@@ -1,3 +1,4 @@
+
 package MacroPad.gui;
 
 import MacroPad.macro.Macro;
@@ -7,8 +8,7 @@ import MacroPad.macro.impl.GifMacro;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
 
@@ -22,7 +22,7 @@ public class ButtonSettingsPanel extends VBox {
     private boolean configureMode = false;
 
     private final Button configureButton = new Button("Button Configure Mode");
-    private final Label selectedButton = new Label("No Button selected");
+    private final Label selectedButtonLabel = new Label("No Button selected");
     private final TextField buttonNameField = new TextField();
     private final Button saveButton = new Button("Save");
     private final Button cancelButton = new Button("Cancel");
@@ -30,9 +30,11 @@ public class ButtonSettingsPanel extends VBox {
     private final TextField audioPathField = new TextField();
     private final Button audioPathBrowseButton = new Button("Browse...");
 
-    private final HBox audioSettings = new HBox(10, audioPathField, audioPathBrowseButton);
+    private final HBox audioSettings =
+            new HBox(10, audioPathField, audioPathBrowseButton);
 
     public ButtonSettingsPanel(MacroManager macroManager, ButtonConfigManager configManager) {
+
         this.macroManager = macroManager;
         this.configManager = configManager;
 
@@ -45,14 +47,19 @@ public class ButtonSettingsPanel extends VBox {
         title.setAlignment(Pos.CENTER);
         title.setStyle("-fx-text-fill: white; -fx-font-size: 18px;");
 
-        selectedButton.setStyle("-fx-text-fill: white;");
+        selectedButtonLabel.setStyle("-fx-text-fill: white;");
 
         buttonNameField.setPromptText("Button Name");
         buttonNameField.setEditable(false);
         buttonNameField.setDisable(true);
 
+        macroTypeBox.getItems().addAll("None", "Audio", "Gif", "System");
+        macroTypeBox.setValue("None");
+        macroTypeBox.setDisable(true);
+
         audioSettings.setVisible(false);
         audioSettings.setManaged(false);
+
         audioPathField.setPromptText("Select Audio Path");
         audioPathField.setEditable(false);
         audioPathField.setDisable(true);
@@ -64,22 +71,19 @@ public class ButtonSettingsPanel extends VBox {
         configureButton.setOnAction(e -> toggleConfigureMode());
         saveButton.setOnAction(e -> saveConfig());
         cancelButton.setOnAction(e -> loadSelectedName());
-
-        macroTypeBox.getItems().addAll(
-                "None",
-                "Audio",
-                "Gif",
-                "System"
-        );
-
-        macroTypeBox.setOnAction(e -> {updateAudioSettings();});
+        macroTypeBox.setOnAction(e -> updateAudioSettings());
 
         audioPathBrowseButton.setOnAction(e -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Select Audio Path");
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Audio Files", "*.mp3"));
+            fileChooser.getExtensionFilters().add(
+                    new FileChooser.ExtensionFilter("Audio Files", "*.mp3")
+            );
 
-            Window window = getScene() != null ? getScene().getWindow() : null;
+            Window window = getScene() != null
+                    ? getScene().getWindow()
+                    : null;
+
             File selectedFile = fileChooser.showOpenDialog(window);
 
             if (selectedFile != null) {
@@ -87,18 +91,58 @@ public class ButtonSettingsPanel extends VBox {
             }
         });
 
-        macroTypeBox.setValue("None");
-        macroTypeBox.setDisable(true);
+        GridPane form = new GridPane();
+        form.setHgap(12);
+        form.setVgap(14);
+        form.setMaxWidth(Double.MAX_VALUE);
+
+        ColumnConstraints labelColumn = new ColumnConstraints();
+        labelColumn.setMinWidth(95);
+        labelColumn.setPrefWidth(95);
+
+        ColumnConstraints inputColumn = new ColumnConstraints();
+        inputColumn.setHgrow(Priority.ALWAYS);
+
+        form.getColumnConstraints().addAll(labelColumn, inputColumn);
+
+        Label nameLabel = new Label("Button Name");
+        Label macroLabel = new Label("Macro Type");
+        Label audioLabel = new Label("Audio File");
+
+        form.add(nameLabel, 0, 0);
+        form.add(buttonNameField, 1, 0);
+
+        form.add(macroLabel, 0, 1);
+        form.add(macroTypeBox, 1, 1);
+
+        form.add(audioLabel, 0, 2);
+        form.add(audioSettings, 1, 2);
+
+        buttonNameField.setMaxWidth(Double.MAX_VALUE);
+        macroTypeBox.setMaxWidth(Double.MAX_VALUE);
+        audioSettings.setMaxWidth(Double.MAX_VALUE);
+        audioPathField.setMaxWidth(Double.MAX_VALUE);
+
+        HBox.setHgrow(audioPathField, Priority.ALWAYS);
+        GridPane.setHgrow(audioSettings, Priority.ALWAYS);
+
+        audioLabel.visibleProperty().bind(audioSettings.visibleProperty());
+        audioLabel.managedProperty().bind(audioSettings.managedProperty());
+
+        Region spacer = new Region();
+        VBox.setVgrow(spacer, Priority.ALWAYS);
+
+        HBox actionButtons = new HBox(10, saveButton, cancelButton);
+        actionButtons.setAlignment(Pos.CENTER_RIGHT);
 
         getChildren().addAll(
                 title,
                 new Separator(),
                 configureButton,
-                selectedButton,
-                new HBox(10, new Label("Button Name"), buttonNameField),
-                new HBox(10, new Label("Macro Type"), macroTypeBox),
-                audioSettings,
-                new HBox(10, saveButton, cancelButton)
+                selectedButtonLabel,
+                form,
+                spacer,
+                actionButtons
         );
     }
 
@@ -108,15 +152,17 @@ public class ButtonSettingsPanel extends VBox {
 
     public void selectButton(int page, int row, int col) {
         configManager.selectButton(page, row, col);
-        selectedButton.setText("Page: " + (page + 1) + " Row: " + (row + 1) + " Col: " + (col + 1));
+
+        selectedButtonLabel.setText(
+                "Page: " + (page + 1)
+                        + "  Row: " + (row + 1)
+                        + "  Col: " + (col + 1)
+        );
+
         loadSelectedName();
         macroTypeBox.setValue(configManager.getSelectedMacroType());
 
-        buttonNameField.setDisable(!configureMode);
-        macroTypeBox.setDisable(!configureMode || !configManager.hasSelection());
-        saveButton.setDisable(!configureMode);
-        cancelButton.setDisable(!configureMode);
-
+        updateControlStates();
         updateAudioSettings();
     }
 
@@ -127,17 +173,25 @@ public class ButtonSettingsPanel extends VBox {
             LaunchpadGrid.clearSelectedPad();
         }
 
-        configureButton.setText(configureMode ? "Cancel Configuration" : "Button Configure Mode");
-        buttonNameField.setEditable(configureMode);
-        buttonNameField.setDisable(!configureMode || !configManager.hasSelection());
-        macroTypeBox.setDisable(!configureMode || !configManager.hasSelection());
-        saveButton.setDisable(!configureMode || !configManager.hasSelection());
-        cancelButton.setDisable(!configureMode || !configManager.hasSelection());
+        configureButton.setText(
+                configureMode
+                        ? "Cancel Configuration"
+                        : "Button Configure Mode"
+        );
 
+        updateControlStates();
         updateAudioSettings();
+    }
 
-        System.out.println("Configure Mode: " + configureMode);
-        System.out.println("Editable: " + buttonNameField.isEditable());
+    private void updateControlStates() {
+        boolean hasSelection = configManager.hasSelection();
+        boolean canEdit = configureMode && hasSelection;
+
+        buttonNameField.setEditable(canEdit);
+        buttonNameField.setDisable(!canEdit);
+        macroTypeBox.setDisable(!canEdit);
+        saveButton.setDisable(!canEdit);
+        cancelButton.setDisable(!canEdit);
     }
 
     private void saveConfig() {
@@ -168,9 +222,7 @@ public class ButtonSettingsPanel extends VBox {
 
                 macro = new AudioMacro(path);
             }
-            case "Gif" -> {
-                macro = new GifMacro("");
-            }
+            case "Gif" -> macro = new GifMacro("");
             case "System", "None" -> macro = null;
             default -> {
                 return;
@@ -179,12 +231,9 @@ public class ButtonSettingsPanel extends VBox {
 
         configManager.saveSelectedName(buttonNameField.getText().trim());
         configManager.saveSelectedMacroType(macroType);
-
         macroManager.setMacro(page, row, col, macro);
 
         loadSelectedName();
-
-        System.out.println("Config saved: " + macroType);
     }
 
     private void loadSelectedName() {
@@ -199,9 +248,10 @@ public class ButtonSettingsPanel extends VBox {
         audioSettings.setVisible(showAudioSettings);
         audioSettings.setManaged(showAudioSettings);
 
-        boolean editable = showAudioSettings && configureMode;
+        boolean canEditAudio = showAudioSettings && configureMode
+                && configManager.hasSelection();
 
-        audioPathField.setDisable(!editable);
-        audioPathBrowseButton.setDisable(!editable);
+        audioPathField.setDisable(!canEditAudio);
+        audioPathBrowseButton.setDisable(!canEditAudio);
     }
 }
