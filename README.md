@@ -16,9 +16,9 @@ Project Status: MacroPad is currently in early development. Features are still b
 - **Virtual Launchpad:** Graphical 8×8 Launchpad interface.
 - **MIDI Support:** Connect and interact with a physical Novation Launchpad X.
 - **Button Configuration:** Assign individual names and macro types to buttons.
-- **Audio Macros:** Trigger audio files using Launchpad buttons.
-- **GIF Macros:** Assign GIF-based actions to individual buttons.
-- **System Macros:** Support for system-related actions.
+- **Audio Macros:** Trigger audio files using Launchpad buttons. (To be polished)
+- **GIF Macros:** Assign GIF-based actions to individual buttons. (Not yet fully implemented)
+- **System Macros:** Support for system-related actions. (Not yet fully implemented)
 - **Page Management:** Organize macros across multiple Launchpad pages.
 - **Configuration Mode:** Edit button settings through the graphical interface.
 
