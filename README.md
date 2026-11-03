@@ -4,6 +4,8 @@ A customizable macro pad application for the **Novation Launchpad X**, built wit
 
 MacroPad allows users to configure Launchpad buttons and assign custom actions to them. It also includes a virtual Launchpad interface, making it possible to configure and test macros without connecting the physical device.
 
+MacroPad is currently under early development. New features and improvements are being added as the project evolves.
+
 ## Features
 
 - **Virtual Launchpad:** Graphical 8×8 Launchpad interface.
@@ -62,18 +64,3 @@ MacroPad allows users to configure Launchpad buttons and assign custom actions t
 6. Configure the required settings and save your changes.
 7. Deactivate configuration mode and use the button to execute its assigned macro.
 
-## Project Structure
-
-The project is organized into several components:
-
-- `gui` – JavaFX user interface and button configuration.
-- `macro` – Macro definitions and execution logic.
-- `midi` – MIDI input handling and Launchpad communication.
-
-## Project Status
-
-MacroPad is currently under development. New features and improvements are being added as the project evolves.
-
-## License
-
-No license has been specified yet.
