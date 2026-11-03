@@ -4,7 +4,12 @@ A customizable macro pad application for the **Novation Launchpad X**, built wit
 
 MacroPad allows users to configure Launchpad buttons and assign custom actions to them. It also includes a virtual Launchpad interface, making it possible to configure and test macros without connecting the physical device.
 
-MacroPad is currently under early development. New features and improvements are being added as the project evolves.
+The Novation Launchpad is primarily designed for creating live music performances, such as this cover I made 10 years ago:
+https://www.youtube.com/watch?v=amVjbRXMyC4
+
+The Launchpad's layout and button arrangement reminded me of devices like the Elgato Stream Deck. This inspired me to develop MacroPad, giving Launchpad users the opportunity to repurpose their MIDI controller as a customizable macro pad.
+
+Project Status: MacroPad is currently in early development. Features are still being implemented, and the application is not yet considered stable.
 
 ## Features
 
