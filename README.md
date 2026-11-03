@@ -1,4 +1,4 @@
-# MacroPad
+# MacroPad - Early Alpha
 
 A customizable macro pad application for the **Novation Launchpad X**, built with Java 21 and JavaFX.
 
