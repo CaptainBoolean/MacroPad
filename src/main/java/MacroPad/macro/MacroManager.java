@@ -1,7 +1,6 @@
 package MacroPad.macro;
 
-import MacroPad.macro.impl.QuitMacro;
-import MacroPad.macro.impl.VolumeMacro;
+import MacroPad.macro.impl.*;
 
 public class MacroManager {
     private final Macro[][][] macros = new Macro[8][8][8];
@@ -10,6 +9,11 @@ public class MacroManager {
     public MacroManager() {
         topMacros[0] = new VolumeMacro(VolumeMacro.Action.UP);
         topMacros[1] = new VolumeMacro(VolumeMacro.Action.DOWN);
+        topMacros[2] = new VolumeMacro(VolumeMacro.Action.MUTE);
+        topMacros[4] = new TaskManagerMacro();
+        topMacros[5] = new SettingsMacro();
+        topMacros[6] = new LockMacro();
+        topMacros[7] = new ScreenshotMacro();
         topMacros[8] = new QuitMacro();
     }
 
@@ -35,6 +39,21 @@ public class MacroManager {
                 break;
             case 1:
                 topMacros[1].execute();
+                break;
+            case 2:
+                topMacros[2].execute();
+                break;
+            case 4:
+                topMacros[4].execute();
+                break;
+            case 5:
+                topMacros[5].execute();
+                break;
+            case 6:
+                topMacros[6].execute();
+                break;
+            case 7:
+                topMacros[7].execute();
                 break;
             case 8:
                 topMacros[8].execute();

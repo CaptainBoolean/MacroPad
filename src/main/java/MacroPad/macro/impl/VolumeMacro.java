@@ -6,7 +6,8 @@ public class VolumeMacro implements Macro {
 
     public enum Action {
         UP,
-        DOWN
+        DOWN,
+        MUTE
     }
 
     private final Action action;
@@ -18,7 +19,11 @@ public class VolumeMacro implements Macro {
     @Override
     public void execute() {
         try {
-            int vkCode = (action == Action.UP) ? 0xAF : 0xAE; // 0xAF = VK_VOLUME_UP, 0xAE = VK_VOLUME_DOWN
+            int vkCode = switch (action) {
+                case UP -> 0xAF; // VK_VOLUME_UP
+                case DOWN -> 0xAE; // VK_VOLUME_DOWN
+                case MUTE -> 0xAD; // VK_VOLUME_MUTE
+            };
 
             String command = String.format(
                     "powershell -Command \"$wshell = New-Object -ComObject wscript.shell; $wshell.SendKeys([char]%d)\"",

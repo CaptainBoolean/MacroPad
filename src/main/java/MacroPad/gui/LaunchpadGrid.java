@@ -10,7 +10,7 @@ public class LaunchpadGrid extends GridPane {
     private static Button selectedPad;
 
     private static final String[] TOP_BUTTON_NAMES = {
-            "Vol +", "Vol -", "Mute", "Play/Pause", "???", "???", "???", "Capture", "Quit"
+            "Vol +", "Vol -", "VolMute", "MicMute", "TaskMgr", "Settings", "Lock", "Capture", "Quit"
     };
 
     public LaunchpadGrid(MacroManager macroManager, PageManager pageManager, ButtonSettingsPanel settingsPanel) {
