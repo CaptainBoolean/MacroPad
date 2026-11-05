@@ -10,15 +10,7 @@ public class ScreenshotMacro implements Macro {
     @Override
     public void execute() {
         try {
-            Robot robot = new Robot();
-
-            robot.keyPress(KeyEvent.VK_WINDOWS);
-            robot.keyPress(KeyEvent.VK_SHIFT);
-            robot.keyPress(KeyEvent.VK_S);
-
-            robot.keyRelease(KeyEvent.VK_WINDOWS);
-            robot.keyRelease(KeyEvent.VK_SHIFT);
-            robot.keyPress(KeyEvent.VK_S);
+            new ProcessBuilder("explorer.exe", "ms-screenclip:").start();
         } catch (Exception e) {
             e.printStackTrace();
         }

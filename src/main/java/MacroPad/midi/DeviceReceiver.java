@@ -21,8 +21,8 @@ public class DeviceReceiver implements Receiver {
             {36, 37, 38, 39, 68, 69, 70, 71}
     };
 
-    private static final int ARROW_UP_CONTROLLER = 91;
-    private static final int ARROW_DOWN_CONTROLLER = 92;
+    private static final int FIRST_CONTROL_BUTTON = 91;
+    private static final int CONTROL_BUTTON_COUNT = 8;
 
     public DeviceReceiver(PageManager pageManager, MacroManager macroManager) {
         this.pageManager = pageManager;
@@ -49,8 +49,11 @@ public class DeviceReceiver implements Receiver {
             int controller = midi.getData1();
             int value = midi.getData2();
 
-            if (value == 127 && (controller == ARROW_UP_CONTROLLER || controller == ARROW_DOWN_CONTROLLER)) {
-                macroManager.handleArrowController(controller);
+            if (controller >= FIRST_CONTROL_BUTTON && controller <= FIRST_CONTROL_BUTTON + CONTROL_BUTTON_COUNT) {
+                if (value == 127) {
+                    int buttonIndex = controller - FIRST_CONTROL_BUTTON;
+                    macroManager.handleTopButtonMacros(buttonIndex);
+                }
             }
 
             return;

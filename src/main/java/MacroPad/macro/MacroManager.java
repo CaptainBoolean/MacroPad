@@ -63,14 +63,4 @@ public class MacroManager {
                 break;
         }
     }
-
-    public void handleArrowController(int controller) {
-        switch (controller) {
-            case 91 -> handleTopButtonMacros(0);
-            case 92 -> handleTopButtonMacros(1);
-            default -> {
-
-            }
-        }
-    }
 }
