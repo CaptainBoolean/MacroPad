@@ -64,9 +64,6 @@ public class DeviceReceiver implements Receiver {
             return;
         }
 
-        // Dein bisheriger Code geht hier unverändert weiter ...
-
-
         int note = midi.getData1();
         System.out.println("Note of Button is: " + note);
         int row = -1;
