@@ -1,8 +1,12 @@
+
 package MacroPad.gui;
 
 public class ButtonConfigManager {
+
     private final String[][][] buttonNames = new String[8][8][8];
     private final String[][][] buttonMacroTypes = new String[8][8][8];
+    private final boolean[][][] allowOverlapSettings = new boolean[8][8][8];
+
     private int selectedPage = -1;
     private int selectedRow = -1;
     private int selectedCol = -1;
@@ -27,15 +31,13 @@ public class ButtonConfigManager {
     }
 
     public void saveSelectedName(String name) {
-        if (!hasSelection()) {
-            return;
+        if (hasSelection()) {
+            buttonNames[selectedPage][selectedRow][selectedCol] = name;
         }
-
-        buttonNames[selectedPage][selectedRow][selectedCol] = name;
     }
 
     public String getSelectedMacroType() {
-        if (!hasSelection()){
+        if (!hasSelection()) {
             return "None";
         }
 
@@ -44,11 +46,23 @@ public class ButtonConfigManager {
     }
 
     public void saveSelectedMacroType(String type) {
-        if (!hasSelection()){
-            return;
+        if (hasSelection()) {
+            buttonMacroTypes[selectedPage][selectedRow][selectedCol] = type;
+        }
+    }
+
+    public boolean getSelectedAllowOverlap() {
+        if (!hasSelection()) {
+            return false;
         }
 
-        buttonMacroTypes[selectedPage][selectedRow][selectedCol] = type;
+        return allowOverlapSettings[selectedPage][selectedRow][selectedCol];
+    }
+
+    public void saveSelectedAllowOverlap(boolean allowOverlap) {
+        if (hasSelection()) {
+            allowOverlapSettings[selectedPage][selectedRow][selectedCol] = allowOverlap;
+        }
     }
 
     public int getSelectedPage() {

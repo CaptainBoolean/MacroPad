@@ -29,6 +29,8 @@ public class ButtonSettingsPanel extends VBox {
     private final ComboBox<String> macroTypeBox = new ComboBox<>();
     private final TextField audioPathField = new TextField();
     private final Button audioPathBrowseButton = new Button("Browse...");
+    private final Label allowOverlapLabel = new Label("Overlapping Playback");
+    private final CheckBox allowOverlapCheckBox = new CheckBox();
 
     private final HBox audioSettings =
             new HBox(10, audioPathField, audioPathBrowseButton);
@@ -64,6 +66,10 @@ public class ButtonSettingsPanel extends VBox {
         audioPathField.setEditable(false);
         audioPathField.setDisable(true);
         audioPathBrowseButton.setDisable(true);
+
+        allowOverlapLabel.setVisible(false);
+        allowOverlapCheckBox.setVisible(false);
+        allowOverlapCheckBox.setManaged(false);
 
         saveButton.setDisable(true);
         cancelButton.setDisable(true);
@@ -117,6 +123,9 @@ public class ButtonSettingsPanel extends VBox {
 
         form.add(audioLabel, 0, 2);
         form.add(audioSettings, 1, 2);
+        HBox overlapSettings = new HBox(10, allowOverlapLabel, allowOverlapCheckBox);
+        overlapSettings.setAlignment(Pos.CENTER_LEFT);
+        form.add(overlapSettings, 0, 3, 2, 1);
 
         buttonNameField.setMaxWidth(Double.MAX_VALUE);
         macroTypeBox.setMaxWidth(Double.MAX_VALUE);
@@ -161,23 +170,25 @@ public class ButtonSettingsPanel extends VBox {
 
         loadSelectedName();
         macroTypeBox.setValue(configManager.getSelectedMacroType());
+        loadSelectedAudioSettings();
 
         updateControlStates();
         updateAudioSettings();
     }
 
     private void toggleConfigureMode() {
+
+        if (configureMode) {
+            saveConfig();
+        }
+
         configureMode = !configureMode;
 
         if (!configureMode) {
             LaunchpadGrid.clearSelectedPad();
         }
 
-        configureButton.setText(
-                configureMode
-                        ? "Cancel Configuration"
-                        : "Button Configure Mode"
-        );
+        configureButton.setText(configureMode ? "Leave Configure Mode" : "Button Configure Mode");
 
         updateControlStates();
         updateAudioSettings();
@@ -209,18 +220,18 @@ public class ButtonSettingsPanel extends VBox {
         int row = configManager.getSelectedRow();
         int col = configManager.getSelectedCol();
 
-        Macro macro;
+        Macro macro = null;
 
         switch (macroType) {
             case "Audio" -> {
                 String path = audioPathField.getText().trim();
 
-                if (path.isEmpty() || !new File(path).isFile()) {
-                    System.out.println("Audio Path is not valid");
-                    return;
+                if (!path.isEmpty() && new File(path).isFile()) {
+                    boolean allowOverlap = allowOverlapCheckBox.isSelected();
+                    macro = new AudioMacro(path, allowOverlap);
+                } else {
+                    macro = null;
                 }
-
-                macro = new AudioMacro(path);
             }
             case "Gif" -> macro = new GifMacro("");
             case "System", "None" -> macro = null;
@@ -231,6 +242,8 @@ public class ButtonSettingsPanel extends VBox {
 
         configManager.saveSelectedName(buttonNameField.getText().trim());
         configManager.saveSelectedMacroType(macroType);
+        configManager.saveSelectedAllowOverlap(allowOverlapCheckBox.isSelected());
+
         macroManager.setMacro(page, row, col, macro);
 
         loadSelectedName();
@@ -240,18 +253,36 @@ public class ButtonSettingsPanel extends VBox {
         buttonNameField.setText(configManager.getSelectedName());
     }
 
+    private void loadSelectedAudioSettings() {
+        Macro macro = macroManager.getMacro(
+                configManager.getSelectedPage(),
+                configManager.getSelectedRow(),
+                configManager.getSelectedCol()
+        );
+
+        if (macro instanceof AudioMacro audioMacro) {
+            audioPathField.setText(audioMacro.getFilePath());
+        } else {
+            audioPathField.clear();
+        }
+
+        allowOverlapCheckBox.setSelected(configManager.getSelectedAllowOverlap());
+    }
+
     private void updateAudioSettings() {
-        boolean showAudioSettings =
-                configManager.hasSelection()
-                        && "Audio".equals(macroTypeBox.getValue());
+        boolean showAudioSettings = configManager.hasSelection() && "Audio".equals(macroTypeBox.getValue());
 
         audioSettings.setVisible(showAudioSettings);
         audioSettings.setManaged(showAudioSettings);
 
-        boolean canEditAudio = showAudioSettings && configureMode
-                && configManager.hasSelection();
+        allowOverlapLabel.setVisible(showAudioSettings);
+        allowOverlapCheckBox.setVisible(showAudioSettings);
+        allowOverlapCheckBox.setManaged(showAudioSettings);
+
+        boolean canEditAudio = showAudioSettings && configureMode && configManager.hasSelection();
 
         audioPathField.setDisable(!canEditAudio);
         audioPathBrowseButton.setDisable(!canEditAudio);
+        allowOverlapCheckBox.setDisable(!canEditAudio);
     }
 }

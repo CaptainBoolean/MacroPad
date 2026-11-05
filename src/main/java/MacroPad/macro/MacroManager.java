@@ -21,6 +21,10 @@ public class MacroManager {
         macros[page][row][col] = macro;
     }
 
+    public Macro getMacro(int page, int row, int col) {
+        return macros[page][row][col];
+    }
+
     public void executeMacro(int page, int row, int col) {
         Macro macro = macros[page][row][col];
         System.out.println("Executing Macro: " + ", Page: " + page + ", Row: " + row + ", Col: " + col);
