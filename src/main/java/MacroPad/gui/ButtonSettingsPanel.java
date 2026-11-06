@@ -3,7 +3,9 @@ package MacroPad.gui;
 
 import MacroPad.macro.Macro;
 import MacroPad.macro.MacroManager;
+import MacroPad.macro.Overlay.CounterManager;
 import MacroPad.macro.impl.AudioMacro;
+import MacroPad.macro.impl.CounterMacro;
 import MacroPad.macro.impl.GifMacro;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -18,6 +20,7 @@ public class ButtonSettingsPanel extends VBox {
 
     private final MacroManager macroManager;
     private final ButtonConfigManager configManager;
+    private final CounterManager counterManager;
 
     private boolean configureMode = false;
 
@@ -32,13 +35,13 @@ public class ButtonSettingsPanel extends VBox {
     private final Label allowOverlapLabel = new Label("Overlapping Playback");
     private final CheckBox allowOverlapCheckBox = new CheckBox();
 
-    private final HBox audioSettings =
-            new HBox(10, audioPathField, audioPathBrowseButton);
+    private final HBox audioSettings = new HBox(10, audioPathField, audioPathBrowseButton);
 
-    public ButtonSettingsPanel(MacroManager macroManager, ButtonConfigManager configManager) {
+    public ButtonSettingsPanel(MacroManager macroManager, ButtonConfigManager configManager, CounterManager counterManager) {
 
         this.macroManager = macroManager;
         this.configManager = configManager;
+        this.counterManager = counterManager;
 
         setSpacing(10);
         setPadding(new Insets(20, 10, 20, 10));
@@ -55,7 +58,7 @@ public class ButtonSettingsPanel extends VBox {
         buttonNameField.setEditable(false);
         buttonNameField.setDisable(true);
 
-        macroTypeBox.getItems().addAll("None", "Audio", "Gif", "System");
+        macroTypeBox.getItems().addAll("None", "Audio", "Counter", "Gif", "System");
         macroTypeBox.setValue("None");
         macroTypeBox.setDisable(true);
 
@@ -232,6 +235,17 @@ public class ButtonSettingsPanel extends VBox {
                 } else {
                     macro = null;
                 }
+            }
+            case "Counter" -> {
+                String counterName = buttonNameField.getText().trim();
+
+                if (counterName.isEmpty()) {
+                    return;
+                }
+
+                counterManager.getOrCreateCounter(counterName);
+                macro = new CounterMacro(counterManager, counterName, CounterMacro.Action.TOGGLE);
+
             }
             case "Gif" -> macro = new GifMacro("");
             case "System", "None" -> macro = null;

@@ -10,21 +10,24 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import org.w3c.dom.css.Counter;
 
 public class MacroPadApp extends Application {
 
     private static MacroManager macroManager;
     private static PageManager pageManager;
+    private static CounterManager counterManager;
 
-    public static void setDependencies(MacroManager macroManager, PageManager pageManager) {
+    public static void setDependencies(MacroManager macroManager, PageManager pageManager, CounterManager counterManager) {
         MacroPadApp.macroManager = macroManager;
         MacroPadApp.pageManager = pageManager;
+        MacroPadApp.counterManager = counterManager;
     }
 
     @Override
     public void start(Stage stage) {
         ButtonConfigManager configManager = new ButtonConfigManager();
-        ButtonSettingsPanel settingsPanel = new ButtonSettingsPanel(macroManager, configManager);
+        ButtonSettingsPanel settingsPanel = new ButtonSettingsPanel(macroManager, configManager, counterManager);
         LaunchpadGrid launchpadGrid = new LaunchpadGrid(macroManager, pageManager, settingsPanel);
         SidebarPanel sidebar = new SidebarPanel();
 

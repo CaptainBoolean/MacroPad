@@ -16,11 +16,12 @@ public class Main {
 
         MacroManager macroManager = new MacroManager();
         PageManager pageManager = new PageManager();
+        CounterManager counterManager = new CounterManager();
 
         macroManager.setMacro(0, 0, 0, new AudioMacro("airhorn.mp3", true));
         macroManager.setMacro(0, 0, 1, new GifMacro("explosion.gif"));
 
-        MacroPadApp.setDependencies(macroManager, pageManager);
+        MacroPadApp.setDependencies(macroManager, pageManager, counterManager);
 
         Thread midiThread = new Thread(() -> DeviceManager.start(macroManager, pageManager), "Launchpad-MIDI");
 

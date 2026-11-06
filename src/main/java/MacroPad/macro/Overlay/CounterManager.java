@@ -20,6 +20,10 @@ public class CounterManager {
         return counters.get(name);
     }
 
+    public CounterOverlay getOrCreateCounter(String name) {
+        return counters.computeIfAbsent(name, CounterOverlay::new);
+    }
+
     public void toggle(String name) {
         CounterOverlay counter = counters.get(name);
 
