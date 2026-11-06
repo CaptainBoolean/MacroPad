@@ -1,6 +1,8 @@
 package MacroPad.gui;
 
 import MacroPad.macro.MacroManager;
+import MacroPad.macro.Overlay.CounterManager;
+import MacroPad.macro.Overlay.CounterOverlay;
 import MacroPad.midi.PageManager;
 import javafx.application.Application;
 import javafx.geometry.Insets;

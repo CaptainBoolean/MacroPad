@@ -2,6 +2,8 @@ package MacroPad;
 
 import MacroPad.gui.MacroPadApp;
 import MacroPad.macro.MacroManager;
+import MacroPad.macro.Overlay.CounterManager;
+import MacroPad.macro.Overlay.CounterOverlay;
 import MacroPad.macro.impl.AudioMacro;
 import MacroPad.macro.impl.GifMacro;
 import MacroPad.midi.DeviceManager;
