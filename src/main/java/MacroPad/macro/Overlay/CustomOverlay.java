@@ -50,6 +50,13 @@ public class CustomOverlay {
         });
     }
 
+    public void setPosition(double x, double y) {
+        Platform.runLater(() -> {
+            stage.setX(x);
+            stage.setY(y);
+        });
+    }
+
     public boolean isVisible() {
         return stage.isShowing();
     }

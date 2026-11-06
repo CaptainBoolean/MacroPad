@@ -4,6 +4,7 @@ package MacroPad.gui;
 import MacroPad.macro.Macro;
 import MacroPad.macro.MacroManager;
 import MacroPad.macro.Overlay.CounterManager;
+import MacroPad.macro.Overlay.CounterOverlay;
 import MacroPad.macro.impl.AudioMacro;
 import MacroPad.macro.impl.CounterMacro;
 import MacroPad.macro.impl.GifMacro;
@@ -34,6 +35,9 @@ public class ButtonSettingsPanel extends VBox {
     private final Button audioPathBrowseButton = new Button("Browse...");
     private final Label allowOverlapLabel = new Label("Overlapping Playback");
     private final CheckBox allowOverlapCheckBox = new CheckBox();
+
+    private final TextField counterXPosition = new TextField("100");
+    private final TextField counterYPosition = new TextField("100");
 
     private final HBox audioSettings = new HBox(10, audioPathField, audioPathBrowseButton);
 
@@ -129,6 +133,13 @@ public class ButtonSettingsPanel extends VBox {
         HBox overlapSettings = new HBox(10, allowOverlapLabel, allowOverlapCheckBox);
         overlapSettings.setAlignment(Pos.CENTER_LEFT);
         form.add(overlapSettings, 0, 3, 2, 1);
+
+        form.add(new Label("Position X"), 0, 4);
+        form.add(counterXPosition, 1, 4);
+        form.add(new Label("Position Y"), 0, 5);
+        form.add(counterYPosition, 1, 5);
+
+
 
         buttonNameField.setMaxWidth(Double.MAX_VALUE);
         macroTypeBox.setMaxWidth(Double.MAX_VALUE);
@@ -243,7 +254,11 @@ public class ButtonSettingsPanel extends VBox {
                     return;
                 }
 
-                counterManager.getOrCreateCounter(counterName);
+                double x = Double.parseDouble(counterXPosition.getText());
+                double y = Double.parseDouble(counterYPosition.getText());
+
+                CounterOverlay counter = counterManager.getOrCreateCounter(counterName);
+                counter.setPosition(x, y);
                 macro = new CounterMacro(counterManager, counterName, CounterMacro.Action.TOGGLE);
 
             }

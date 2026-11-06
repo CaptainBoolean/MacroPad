@@ -55,4 +55,12 @@ public class CounterManager {
             counter.reset();
         }
     }
+
+    public void setPosition(String name, double x, double y) {
+        CounterOverlay counter = counters.get(name);
+
+        if (counter != null) {
+            counter.setPosition(x, y);
+        }
+    }
 }

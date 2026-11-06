@@ -69,6 +69,10 @@ public class CounterOverlay {
         updateCounter();
     }
 
+    public void setPosition(double x, double y) {
+        overlay.setPosition(x, y);
+    }
+
     private void updateCounter() {
         javafx.application.Platform.runLater(() ->
                 counterLabel.setText(String.valueOf(count))
