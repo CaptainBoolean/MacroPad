@@ -28,18 +28,20 @@ public class ButtonSettingsPanel extends VBox {
     private final Button configureButton = new Button("Button Configure Mode");
     private final Label selectedButtonLabel = new Label("No Button selected");
     private final TextField buttonNameField = new TextField();
+    private final ComboBox<String> macroTypeBox = new ComboBox<>();
     private final Button saveButton = new Button("Save");
     private final Button cancelButton = new Button("Cancel");
-    private final ComboBox<String> macroTypeBox = new ComboBox<>();
+
     private final TextField audioPathField = new TextField();
     private final Button audioPathBrowseButton = new Button("Browse...");
     private final Label allowOverlapLabel = new Label("Overlapping Playback");
     private final CheckBox allowOverlapCheckBox = new CheckBox();
+    private final HBox audioFileSettings = new HBox(10, audioPathField, audioPathBrowseButton);
 
-    private final TextField counterXPosition = new TextField("100");
-    private final TextField counterYPosition = new TextField("100");
-
-    private final HBox audioSettings = new HBox(10, audioPathField, audioPathBrowseButton);
+    private final Label counterXPositionLabel =  new Label("Position X");
+    private final Label counterYPositionLabel =  new Label("Position Y");
+    private final TextField counterXPositionField = new TextField("100");
+    private final TextField counterYPositionField = new TextField("100");
 
     public ButtonSettingsPanel(MacroManager macroManager, ButtonConfigManager configManager, CounterManager counterManager) {
 
@@ -58,6 +60,7 @@ public class ButtonSettingsPanel extends VBox {
 
         selectedButtonLabel.setStyle("-fx-text-fill: white;");
 
+        /* Global Button Settings */
         buttonNameField.setPromptText("Button Name");
         buttonNameField.setEditable(false);
         buttonNameField.setDisable(true);
@@ -66,8 +69,9 @@ public class ButtonSettingsPanel extends VBox {
         macroTypeBox.setValue("None");
         macroTypeBox.setDisable(true);
 
-        audioSettings.setVisible(false);
-        audioSettings.setManaged(false);
+        /* Audio Button Settings */
+        audioFileSettings.setVisible(false);
+        audioFileSettings.setManaged(false);
 
         audioPathField.setPromptText("Select Audio Path");
         audioPathField.setEditable(false);
@@ -78,13 +82,29 @@ public class ButtonSettingsPanel extends VBox {
         allowOverlapCheckBox.setVisible(false);
         allowOverlapCheckBox.setManaged(false);
 
+        /* Counter Button Settings */
+
+        counterXPositionLabel.setVisible(false);
+        counterXPositionLabel.setManaged(false);
+        counterXPositionField.setVisible(false);
+        counterXPositionField.setManaged(false);
+
+        counterYPositionLabel.setVisible(false);
+        counterYPositionLabel.setManaged(false);
+        counterYPositionField.setVisible(false);
+        counterYPositionField.setManaged(false);
+
+        /* Save/Cancel Button Settings */
         saveButton.setDisable(true);
         cancelButton.setDisable(true);
 
         configureButton.setOnAction(e -> toggleConfigureMode());
         saveButton.setOnAction(e -> saveConfig());
         cancelButton.setOnAction(e -> loadSelectedName());
-        macroTypeBox.setOnAction(e -> updateAudioSettings());
+        macroTypeBox.setOnAction(e -> {
+            updateAudioSettings();
+            updateCounterSettings();
+        });
 
         audioPathBrowseButton.setOnAction(e -> {
             FileChooser fileChooser = new FileChooser();
@@ -129,28 +149,26 @@ public class ButtonSettingsPanel extends VBox {
         form.add(macroTypeBox, 1, 1);
 
         form.add(audioLabel, 0, 2);
-        form.add(audioSettings, 1, 2);
-        HBox overlapSettings = new HBox(10, allowOverlapLabel, allowOverlapCheckBox);
-        overlapSettings.setAlignment(Pos.CENTER_LEFT);
-        form.add(overlapSettings, 0, 3, 2, 1);
+        form.add(audioFileSettings, 1, 2);
+        form.add(allowOverlapLabel, 0, 3);
+        form.add(allowOverlapCheckBox, 1, 3);
 
-        form.add(new Label("Position X"), 0, 4);
-        form.add(counterXPosition, 1, 4);
-        form.add(new Label("Position Y"), 0, 5);
-        form.add(counterYPosition, 1, 5);
+        form.add(counterXPositionLabel, 0, 2);
+        form.add(counterXPositionField, 1, 2);
 
-
+        form.add(counterYPositionLabel, 0, 3);
+        form.add(counterYPositionField, 1, 3);
 
         buttonNameField.setMaxWidth(Double.MAX_VALUE);
         macroTypeBox.setMaxWidth(Double.MAX_VALUE);
-        audioSettings.setMaxWidth(Double.MAX_VALUE);
+        audioFileSettings.setMaxWidth(Double.MAX_VALUE);
         audioPathField.setMaxWidth(Double.MAX_VALUE);
 
         HBox.setHgrow(audioPathField, Priority.ALWAYS);
-        GridPane.setHgrow(audioSettings, Priority.ALWAYS);
+        GridPane.setHgrow(audioFileSettings, Priority.ALWAYS);
 
-        audioLabel.visibleProperty().bind(audioSettings.visibleProperty());
-        audioLabel.managedProperty().bind(audioSettings.managedProperty());
+        audioLabel.visibleProperty().bind(audioFileSettings.visibleProperty());
+        audioLabel.managedProperty().bind(audioFileSettings.managedProperty());
 
         Region spacer = new Region();
         VBox.setVgrow(spacer, Priority.ALWAYS);
@@ -176,11 +194,7 @@ public class ButtonSettingsPanel extends VBox {
     public void selectButton(int page, int row, int col) {
         configManager.selectButton(page, row, col);
 
-        selectedButtonLabel.setText(
-                "Page: " + (page + 1)
-                        + "  Row: " + (row + 1)
-                        + "  Col: " + (col + 1)
-        );
+        selectedButtonLabel.setText("Page: " + (page + 1) + "  Row: " + (row + 1) + "  Col: " + (col + 1));
 
         loadSelectedName();
         macroTypeBox.setValue(configManager.getSelectedMacroType());
@@ -188,6 +202,7 @@ public class ButtonSettingsPanel extends VBox {
 
         updateControlStates();
         updateAudioSettings();
+        updateCounterSettings();
     }
 
     private void toggleConfigureMode() {
@@ -206,6 +221,7 @@ public class ButtonSettingsPanel extends VBox {
 
         updateControlStates();
         updateAudioSettings();
+        updateCounterSettings();
     }
 
     private void updateControlStates() {
@@ -254,8 +270,8 @@ public class ButtonSettingsPanel extends VBox {
                     return;
                 }
 
-                double x = Double.parseDouble(counterXPosition.getText());
-                double y = Double.parseDouble(counterYPosition.getText());
+                double x = Double.parseDouble(counterXPositionField.getText());
+                double y = Double.parseDouble(counterYPositionField.getText());
 
                 CounterOverlay counter = counterManager.getOrCreateCounter(counterName);
                 counter.setPosition(x, y);
@@ -301,10 +317,11 @@ public class ButtonSettingsPanel extends VBox {
     private void updateAudioSettings() {
         boolean showAudioSettings = configManager.hasSelection() && "Audio".equals(macroTypeBox.getValue());
 
-        audioSettings.setVisible(showAudioSettings);
-        audioSettings.setManaged(showAudioSettings);
+        audioFileSettings.setVisible(showAudioSettings);
+        audioFileSettings.setManaged(showAudioSettings);
 
         allowOverlapLabel.setVisible(showAudioSettings);
+        allowOverlapLabel.setManaged(showAudioSettings);
         allowOverlapCheckBox.setVisible(showAudioSettings);
         allowOverlapCheckBox.setManaged(showAudioSettings);
 
@@ -313,5 +330,26 @@ public class ButtonSettingsPanel extends VBox {
         audioPathField.setDisable(!canEditAudio);
         audioPathBrowseButton.setDisable(!canEditAudio);
         allowOverlapCheckBox.setDisable(!canEditAudio);
+    }
+
+    private void updateCounterSettings() {
+        boolean showCounter = configManager.hasSelection() && "Counter".equals(macroTypeBox.getValue());
+
+        counterXPositionLabel.setVisible(showCounter);
+        counterXPositionLabel.setManaged(showCounter);
+
+        counterXPositionField.setVisible(showCounter);
+        counterXPositionField.setManaged(showCounter);
+
+        counterYPositionLabel.setVisible(showCounter);
+        counterYPositionLabel.setManaged(showCounter);
+
+        counterYPositionField.setVisible(showCounter);
+        counterYPositionField.setManaged(showCounter);
+
+        boolean canEditCounter = showCounter && configureMode && configManager.hasSelection();
+
+        counterXPositionField.setDisable(!canEditCounter);
+        counterYPositionField.setDisable(!canEditCounter);
     }
 }
