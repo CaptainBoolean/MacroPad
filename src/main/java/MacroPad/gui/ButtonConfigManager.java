@@ -7,9 +7,23 @@ public class ButtonConfigManager {
     private final String[][][] buttonMacroTypes = new String[8][8][8];
     private final boolean[][][] allowOverlapSettings = new boolean[8][8][8];
 
+    private final double[][][] counterXPositions = new double[8][8][8];
+    private final double[][][] counterYPositions = new double[8][8][8];
+
     private int selectedPage = -1;
     private int selectedRow = -1;
     private int selectedCol = -1;
+
+    public ButtonConfigManager() {
+        for (int page = 0; page < 8; page++) {
+            for (int row = 0; row < 8; row++) {
+                for (int col = 0; col < 8; col++) {
+                    counterXPositions[page][row][col] = 100;
+                    counterYPositions[page][row][col] = 100;
+                }
+            }
+        }
+    }
 
     public void selectButton(int page, int row, int col) {
         selectedPage = page;
@@ -65,6 +79,27 @@ public class ButtonConfigManager {
         }
     }
 
+    // Counter-Position
+
+    public double getSelectedCounterX() {
+        if (!hasSelection()) return 100;
+
+        return counterXPositions[selectedPage][selectedRow][selectedCol];
+    }
+
+    public double getSelectedCounterY() {
+        if (!hasSelection()) return 100;
+
+        return counterYPositions[selectedPage][selectedRow][selectedCol];
+    }
+
+    public void saveSelectedCounterPosition(double x, double y) {
+        if (hasSelection()) {
+            counterXPositions[selectedPage][selectedRow][selectedCol] = x;
+            counterYPositions[selectedPage][selectedRow][selectedCol] = y;
+        }
+    }
+
     public int getSelectedPage() {
         return selectedPage;
     }
@@ -76,4 +111,6 @@ public class ButtonConfigManager {
     public int getSelectedCol() {
         return selectedCol;
     }
+
+
 }

@@ -199,6 +199,7 @@ public class ButtonSettingsPanel extends VBox {
         loadSelectedName();
         macroTypeBox.setValue(configManager.getSelectedMacroType());
         loadSelectedAudioSettings();
+        loadSelectedCounterPosition();
 
         updateControlStates();
         updateAudioSettings();
@@ -273,6 +274,8 @@ public class ButtonSettingsPanel extends VBox {
                 double x = Double.parseDouble(counterXPositionField.getText());
                 double y = Double.parseDouble(counterYPositionField.getText());
 
+                configManager.saveSelectedCounterPosition(x, y);
+
                 CounterOverlay counter = counterManager.getOrCreateCounter(counterName);
                 counter.setPosition(x, y);
                 macro = new CounterMacro(counterManager, counterName, CounterMacro.Action.TOGGLE);
@@ -312,6 +315,11 @@ public class ButtonSettingsPanel extends VBox {
         }
 
         allowOverlapCheckBox.setSelected(configManager.getSelectedAllowOverlap());
+    }
+
+    private void loadSelectedCounterPosition() {
+        counterXPositionField.setText(String.valueOf(configManager.getSelectedCounterX()));
+        counterYPositionField.setText(String.valueOf(configManager.getSelectedCounterY()));
     }
 
     private void updateAudioSettings() {
