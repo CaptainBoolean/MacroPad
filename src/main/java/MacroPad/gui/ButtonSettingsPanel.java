@@ -42,6 +42,7 @@ public class ButtonSettingsPanel extends VBox {
     private final Label counterYPositionLabel =  new Label("Position Y");
     private final TextField counterXPositionField = new TextField("100");
     private final TextField counterYPositionField = new TextField("100");
+    private final Separator counterSeparator = new Separator();
 
     public ButtonSettingsPanel(MacroManager macroManager, ButtonConfigManager configManager, CounterManager counterManager) {
 
@@ -93,6 +94,9 @@ public class ButtonSettingsPanel extends VBox {
         counterYPositionLabel.setManaged(false);
         counterYPositionField.setVisible(false);
         counterYPositionField.setManaged(false);
+
+        counterSeparator.setVisible(false);
+        counterSeparator.setManaged(false);
 
         /* Save/Cancel Button Settings */
         saveButton.setDisable(true);
@@ -158,6 +162,7 @@ public class ButtonSettingsPanel extends VBox {
 
         form.add(counterYPositionLabel, 0, 3);
         form.add(counterYPositionField, 1, 3);
+        form.add(counterSeparator, 0, 4, 2, 1);
 
         buttonNameField.setMaxWidth(Double.MAX_VALUE);
         macroTypeBox.setMaxWidth(Double.MAX_VALUE);
@@ -354,6 +359,9 @@ public class ButtonSettingsPanel extends VBox {
 
         counterYPositionField.setVisible(showCounter);
         counterYPositionField.setManaged(showCounter);
+
+        counterSeparator.setVisible(showCounter);
+        counterSeparator.setManaged(showCounter);
 
         boolean canEditCounter = showCounter && configureMode && configManager.hasSelection();
 
