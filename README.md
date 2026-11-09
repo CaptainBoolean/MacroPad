@@ -9,7 +9,13 @@ https://www.youtube.com/watch?v=amVjbRXMyC4
 
 The Launchpad's layout and button arrangement reminded me of devices like the Elgato Stream Deck. This inspired me to develop MacroPad, giving Launchpad users the opportunity to repurpose their MIDI controller as a customizable macro pad.
 
-Project Status: MacroPad is currently in early development. Features are still being implemented, and the application is not yet considered stable.
+Project Status: MacroPad is currently in early development. Features are still being implemented, and the application is not yet considered stable. 
+
+## Preview
+
+Early Development Preview
+
+![MacroPad Preview](images/MacroPad_early_build.png)
 
 ## Features
 
