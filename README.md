@@ -24,6 +24,7 @@ Early Development Preview
 - **Button Configuration:** Assign individual names and macro types to buttons.
 - **Audio Macros:** Trigger audio files using Launchpad buttons. (To be polished)
 - **GIF Macros:** Assign GIF-based actions to individual buttons. (Not yet fully implemented)
+- **Counter Macros** Activate a counter on the display. (Not yet fully implemented)
 - **System Macros:** Support for system-related actions. (Not yet fully implemented)
 - **Page Management:** Organize macros across multiple Launchpad pages.
 - **Configuration Mode:** Edit button settings through the graphical interface.
@@ -42,6 +43,7 @@ Early Development Preview
 - Java JDK 21 or newer
 - Maven
 - Novation Launchpad X (optional, for physical MIDI interaction)
+- Windows 11
 
 ### Installation
 
