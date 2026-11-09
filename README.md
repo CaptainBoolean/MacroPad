@@ -15,7 +15,7 @@ Project Status: MacroPad is currently in early development. Features are still b
 
 Early Development Preview
 
-![MacroPad Preview](images/MacroPad_early_build.png)
+![MacroPad Preview](https://github.com/CaptainBoolean/MacroPad/blob/master/src/main/resources/images/MacroPad_early_build.png)
 
 ## Features
 
