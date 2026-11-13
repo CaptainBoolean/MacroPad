@@ -44,6 +44,27 @@ public class ButtonSettingsPanel extends VBox {
     private final TextField counterYPositionField = new TextField("100");
     private final Separator counterSeparator = new Separator();
 
+    private final Label counterIncreaseLabel = new Label("Increase Button");
+    private final TextField counterIncreaseButtonRow = new TextField("");
+    private final TextField counterIncreaseButtonCol = new TextField("");
+    private final TextField counterincreaseButtonPage = new TextField("");
+    private final Button counterIncreaseChooseButton = new Button("Choose ...");
+    private final HBox counterIncreaseSettings = new HBox(8, counterIncreaseButtonRow, counterIncreaseButtonCol, counterincreaseButtonPage, counterIncreaseChooseButton);
+
+    private final Label counterDecreaseLabel = new Label("Decrease Button");
+    private final TextField counterDecreaseButtonRow = new TextField("");
+    private final TextField counterDecreaseButtonCol = new TextField("");
+    private final TextField counterDecreaseButtonPage = new TextField("");
+    private final Button counterDecreaseChooseButton = new Button("Choose ...");
+    private final HBox counterDecreaseSettings = new HBox(8, counterDecreaseButtonRow, counterDecreaseButtonCol, counterDecreaseButtonPage, counterDecreaseChooseButton);
+
+    private final Label counterResetLabel = new Label("Reset Button");
+    private final TextField counterResetButtonRow = new TextField("");
+    private final TextField counterResetButtonCol = new TextField("");
+    private final TextField counterResetButtonPage = new TextField("");
+    private final Button counterResetChooseButton = new Button("Choose ...");
+    private final HBox counterResetSettings = new HBox(8, counterResetButtonRow, counterResetButtonCol, counterResetButtonPage, counterResetChooseButton);
+
     public ButtonSettingsPanel(MacroManager macroManager, ButtonConfigManager configManager, CounterManager counterManager) {
 
         this.macroManager = macroManager;
@@ -97,6 +118,34 @@ public class ButtonSettingsPanel extends VBox {
 
         counterSeparator.setVisible(false);
         counterSeparator.setManaged(false);
+
+        counterIncreaseLabel.setVisible(false);
+        counterIncreaseLabel.setManaged(false);
+        counterIncreaseButtonRow.setMaxWidth(40);
+        counterIncreaseButtonCol.setMaxWidth(40);
+        counterincreaseButtonPage.setMaxWidth(40);
+        counterIncreaseChooseButton.setMaxWidth(100);
+        counterIncreaseSettings.setAlignment(Pos.CENTER_LEFT);
+        counterIncreaseSettings.setVisible(false);
+        counterIncreaseSettings.setManaged(false);
+
+        counterDecreaseLabel.setVisible(false);
+        counterDecreaseLabel.setManaged(false);
+        counterDecreaseButtonRow.setMaxWidth(40);
+        counterDecreaseButtonCol.setMaxWidth(40);
+        counterDecreaseButtonPage.setMaxWidth(40);
+        counterDecreaseChooseButton.setMaxWidth(100);
+        counterDecreaseSettings.setVisible(false);
+        counterDecreaseSettings.setManaged(false);
+
+        counterResetLabel.setVisible(false);
+        counterResetLabel.setManaged(false);
+        counterResetButtonRow.setMaxWidth(40);
+        counterResetButtonCol.setMaxWidth(40);
+        counterResetButtonPage.setMaxWidth(40);
+        counterResetChooseButton.setMaxWidth(100);
+        counterResetSettings.setVisible(false);
+        counterResetSettings.setManaged(false);
 
         /* Save/Cancel Button Settings */
         saveButton.setDisable(true);
@@ -159,10 +208,15 @@ public class ButtonSettingsPanel extends VBox {
 
         form.add(counterXPositionLabel, 0, 2);
         form.add(counterXPositionField, 1, 2);
-
         form.add(counterYPositionLabel, 0, 3);
         form.add(counterYPositionField, 1, 3);
         form.add(counterSeparator, 0, 4, 2, 1);
+        form.add(counterIncreaseLabel, 0, 5);
+        form.add(counterIncreaseSettings, 1, 5);
+        form.add(counterDecreaseLabel, 0, 6);
+        form.add(counterDecreaseSettings, 1, 6);
+        form.add(counterResetLabel, 0, 7);
+        form.add(counterResetSettings, 1, 7);
 
         buttonNameField.setMaxWidth(Double.MAX_VALUE);
         macroTypeBox.setMaxWidth(Double.MAX_VALUE);
@@ -363,9 +417,28 @@ public class ButtonSettingsPanel extends VBox {
         counterSeparator.setVisible(showCounter);
         counterSeparator.setManaged(showCounter);
 
+        counterIncreaseLabel.setVisible(showCounter);
+        counterIncreaseLabel.setManaged(showCounter);
+        counterIncreaseSettings.setVisible(showCounter);
+        counterIncreaseSettings.setManaged(showCounter);
+
+        counterDecreaseLabel.setVisible(showCounter);
+        counterDecreaseLabel.setManaged(showCounter);
+        counterDecreaseSettings.setVisible(showCounter);
+        counterDecreaseSettings.setManaged(showCounter);
+
+        counterResetLabel.setVisible(showCounter);
+        counterResetLabel.setManaged(showCounter);
+        counterResetSettings.setVisible(showCounter);
+        counterResetSettings.setManaged(showCounter);
+
         boolean canEditCounter = showCounter && configureMode && configManager.hasSelection();
 
         counterXPositionField.setDisable(!canEditCounter);
         counterYPositionField.setDisable(!canEditCounter);
+
+        counterIncreaseSettings.setDisable(!canEditCounter);
+        counterDecreaseSettings.setDisable(!canEditCounter);
+        counterResetSettings.setDisable(!canEditCounter);
     }
 }
